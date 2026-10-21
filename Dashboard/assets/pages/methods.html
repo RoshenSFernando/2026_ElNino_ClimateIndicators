@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data, Methods and Notes</title>
+<link rel="stylesheet" href="assets/dashboard.css?v=20261021k">
+<style>
+  main.prose { max-width: 1440px; }
+  .prose h2 { font-size: 18px; margin: 30px 0 6px; padding-top: 6px; border-top: 1px solid var(--border); }
+  .prose h2:first-of-type { border-top: 0; }
+  .prose h3 { font-size: 15px; margin: 18px 0 4px; color: var(--ink); }
+  .prose p, .prose li { color: var(--ink-2); }
+  .prose li { margin-bottom: 4px; }
+  .prose code { font-size: 12.5px; background: var(--wash); padding: 1px 4px; border-radius: 4px; }
+  .prose table.data { margin: 8px 0 12px; }
+  .prose table.data th { text-align: left; }
+  .prose table.data td { white-space: normal; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+  .prose code { overflow-wrap: anywhere; }
+  .formula { overflow-x: auto; }
+  .toc { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 10px 0 4px; font-size: 13px; }
+  .toc a { color: var(--ink-2); }
+  .formula { font-family: ui-monospace, Consolas, monospace; font-size: 13px; background: var(--wash); padding: 8px 10px; border-radius: 6px; color: var(--ink); }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Data, Methods and Notes</h1>
+  <p>This page documents the data sources, definitions and statistical methods behind every page of the dashboard, from the classification of ENSO phases to the tests used for climate anomalies, correlations, historical responses and disasters. It closes with the main caveats to keep in mind when reading the results and the references for each method.</p>
+  <div class="toc">
+    <a href="#data">Data</a><a href="#variables">Variables and WBGT</a><a href="#enso">ENSO Conditions</a><a href="#climate">Climate Analyses</a><a href="#outlook">Seasonal Forecasts</a>
+    <a href="#disasters">Disaster Analyses</a><a href="#caveats">Notes and Caveats</a><a href="#references">References</a>
+  </div>
+</header>
+
+<main class="prose">
+  <h2 id="data">Data</h2>
+  <h3>Climate</h3>
+  <p>CRU-CY version 4.10 (University of East Anglia, released June 2026): country averages of the CRU TS 4.10 gridded dataset, monthly from 1901 to 2025, with CRU's own seasonal (MAM, JJA, SON, DJF) and annual values. Country averages are area-weighted means of the 0.5° grid cells in each country. 219 countries and territories are used. CRU names are matched to ISO codes through an explicit crosswalk, because automatic matching assigns the Bassas da India atoll to India and misses South Korea, St Lucia, Puerto Rico, Vanuatu and Kosovo. Sub-national islands in CRU-CY (for example Hawaii or the Galápagos) are not used.</p>
+  <h3>ENSO Indices</h3>
+  <p>NOAA's relative Oceanic Niño Index (RONI), January 1950 onwards, as 3-month running seasons. RONI is the Niño 3.4 sea-surface temperature anomaly minus the mean anomaly of the tropical oceans (20°N–20°S), rescaled to the variance of the traditional index, so that background ocean warming does not shift the ENSO thresholds. Monthly Niño 1+2, 3, 3.4 and 4 sea-surface temperature anomalies (NOAA OISST v2.1, 1991–2020 base) from January 1982 are used for event types and for the index comparison.</p>
+  <h3>Disasters</h3>
+  <p>EM-DAT, the international disaster database (CRED / UCLouvain, Brussels; public data, version of 12 October 2026). EM-DAT records a disaster when it meets at least one of: 10 or more deaths, 100 or more people affected, a declaration of a state of emergency, or a call for international assistance. The analysis covers climate-related natural hazards (floods, storms, droughts, extreme temperature, wildfires and wet mass movements) starting from 2000. Epidemics in the extract (895 records) are excluded, as are events starting in 2026 (148), because the year is incomplete and recent entries are still being added, 49 events without a start month and 8 glacial lake outburst floods, leaving 8,925 events. Damage uses EM-DAT's CPI-adjusted total damage, shown in millions of US$.</p>
+  <h3>Seasonal Forecasts</h3>
+  <p>ENSO: Outlook uses the probabilistic multi-model ensemble (PMME) forecasts of the WMO Lead Centre for Long-Range Forecast Multi-Model Ensemble (WMO LC-LRFMME, www.wmolc.org), which combines the monthly runs of the WMO Global Producing Centres. The forecasts of Mean Temperature (2 m air temperature) and Precipitation are given on a 2.5° grid for the next four overlapping three-month seasons, as the most likely of three equally likely categories (below, near and above normal, from each system's hindcast climate) and its probability. The Niño 3.4 forecast of each system and their multi-model mean come from the Lead Centre's Climate Indices product.</p>
+  <h3>Regions</h3>
+  <p>Countries are grouped by the UN geoscheme (M49): five continental regions and 22 subregions, using the intermediate region where the UN defines one (Caribbean, Central America and South America; Eastern, Middle, Southern and Western Africa). Kosovo, Taiwan and a few EM-DAT territories without an M49 code are assigned by hand.</p>
+  <h3>Data Quality</h3>
+  <p>CRU TS fills grid cells without nearby stations with the 1961–1990 climatology, so in data-sparse countries the record contains repeated values and damped anomalies. The country pages flag countries where at least 15% of 1991–2025 monthly Precipitation values (in months with at least 10 mm normal) occur three or more times for the same calendar month. Potential Evapotranspiration is not available for 13 small islands.</p>
+
+  <h2 id="variables">Variables and WBGT</h2>
+  <table class="data">
+    <thead><tr><th>Code</th><th>Variable</th><th>Unit</th></tr></thead>
+    <tbody>
+      <tr><td>TMP</td><td>Mean Temperature</td><td>°C</td></tr>
+      <tr><td>TMX</td><td>Maximum Temperature (mean daily maximum)</td><td>°C</td></tr>
+      <tr><td>TMN</td><td>Minimum Temperature (mean daily minimum)</td><td>°C</td></tr>
+      <tr><td>DTR</td><td>Diurnal Temperature Range</td><td>°C</td></tr>
+      <tr><td>WBGT</td><td>Wet-Bulb Globe Temperature (Daytime, Simplified), derived</td><td>°C</td></tr>
+      <tr><td>PRE</td><td>Precipitation</td><td>mm</td></tr>
+      <tr><td>WET</td><td>Wet Days (days with at least 0.1 mm)</td><td>days</td></tr>
+      <tr><td>CLD</td><td>Cloud Cover</td><td>%</td></tr>
+      <tr><td>VAP</td><td>Vapour Pressure</td><td>hPa</td></tr>
+      <tr><td>PET</td><td>Potential Evapotranspiration (Penman-Monteith)</td><td>mm/day</td></tr>
+    </tbody>
+  </table>
+  <h3>Wet-Bulb Globe Temperature</h3>
+  <p>WBGT is the standard index of heat stress for work and exercise. The full index needs wind speed and solar radiation, which CRU does not provide, so the dashboard uses the simplified WBGT of the Australian Bureau of Meteorology, widely used with monthly climate data (for example Willett and Sherwood 2012):</p>
+  <p class="formula">WBGT = 0.567 × T + 0.393 × e + 3.94</p>
+  <p>with T the air temperature (°C) and e the Vapour Pressure (hPa). Using the Maximum Temperature (TMX) with the mean Vapour Pressure (VAP) gives a daytime value. Because the formula is linear, it applies equally to monthly, seasonal and annual means.</p>
+  <p>Caveats: the simplified formula assumes moderate sunshine and light wind, so it overstates heat stress in the shade or in windy conditions and understates it in full sun with no wind. Monthly country averages smooth out the hot days and hot places where heat stress matters most, so levels are well below daily extremes. The index is best used, as here, for comparing years and ENSO phases within a country rather than for absolute thresholds.</p>
+
+  <h2 id="enso">ENSO Conditions</h2>
+  <ul>
+    <li><b>Phase.</b> Each RONI season is placed on its centre month (DJF on January). A month is El Niño (La Niña) when it belongs to a run of at least five consecutive overlapping seasons with RONI at or above +0.5 °C (at or below −0.5 °C), following NOAA's operational definition. Other months are Neutral. A run that reaches the latest month but is still shorter than five seasons is reported as "conditions, episode not yet confirmed".</li>
+    <li><b>Strength.</b> From the episode's peak |RONI|: weak 0.5–0.9, moderate 1.0–1.4, strong 1.5–1.9, very strong 2.0 and above. Strong and very strong are merged in composites because each holds only a few events since 1991.</li>
+    <li><b>Type of El Niño</b> (from 1982). Central Pacific when the Niño 4 anomaly exceeds the Niño 3 anomaly in the episode's December–February months (all its months if it has none), otherwise Eastern Pacific (after Kug et al. 2009 and Yeh et al. 2009). Borderline cases such as 2009/10 are sensitive to this rule.</li>
+    <li><b>Period of a climate value.</b> A month takes the phase of that month; a season the phase of its centre month (April for MAM, July for JJA, October for SON). CRU labels DJF by the year of its December, so DJF 2023 (December 2023 to February 2024) takes the phase of January 2024.</li>
+    <li><b>ENSO year.</b> June to the following May, labelled by its June. It takes the phase of its December–February peak and is used as the annual unit instead of the calendar year, which splits events in two. 1991/92–2024/25 contains 11 El Niño, 15 La Niña and 8 Neutral ENSO years.</li>
+  </ul>
+
+  <h2 id="climate">Climate Analyses (ENSO: Global Variations and ENSO: Country Deep Dives)</h2>
+  <h3>Anomalies and Baselines</h3>
+  <p>Anomalies are computed against two 30-year baselines, 1961–1990 (CRU's native reference and the WMO reference for long-term change) and 1991–2020 (the current WMO standard normal, also the base of the Niño SST indices). A normal needs at least 25 of its 30 years. Two forms are offered: absolute anomaly, and percent of normal (Precipitation and Wet Days only, where the normal is at least 5 mm or 1 day per month in the period). Where all variables are compared on one chart (the difference tables and the global maps), differences are divided by the baseline standard deviation so they share one scale. Changing the baseline shifts absolute anomalies by a constant, so it does not affect differences between phases, correlations or local projections; it does affect the level of anomalies and percent values. Against 1961–1990, warming lifts temperature-type anomalies in every phase in 1991–2025.</p>
+  <h3>Anomalies in El Niño and La Niña Years, 1991–2025</h3>
+  <ul>
+    <li><b>Phase means and differences.</b> For every country, variable and period, the mean anomaly in El Niño, La Niña and Neutral years (and in groups by strength and type), with 95% t-intervals. Differences from Neutral years are tested by permutation: phase labels are shuffled 5,000 times between the phase and Neutral years, and p is the share of shuffles with a difference at least as large as observed.</li>
+    <li><b>ENSO-year cycle.</b> Monthly anomalies from June to May averaged over the ENSO years of each phase, 1991/92–2024/25, with 95% intervals.</li>
+  </ul>
+  <h3>Correlation with ENSO Indices</h3>
+  <p>Pearson correlation between each linearly detrended country series and the detrended ENSO index, for each month, season and the ENSO year: RONI at lags of 0–12 months before the centre of the period, and Niño 1+2, 3, 3.4 and 4 (3-month means) at lag 0. Two samples: 1951–2025 (for the SST indices, which start in 1982, 1982–2025) and 1991–2025. p-values use the effective sample size of Bretherton et al. (1999), which allows for autocorrelation; q-values control the false discovery rate (Benjamini and Hochberg 1995) across all countries, variables and periods tested together for each index, lag and sample. Spearman rank correlations are given at lag 0 as a check. Rolling correlations use 21-year windows. UN subregion values on ENSO: Global Variations are medians across countries.</p>
+  <h3>Historical Climate Response to ENSO (Local Projections)</h3>
+  <p>For each country, variable and horizon h = 0–12 months, on monthly data 1951–2025 (Jordà 2005):</p>
+  <p class="formula">y(t+h) = month-of-t effects + trend + trend² + b⁺(h)·max(RONI_t, 0) + b⁻(h)·min(RONI_t, 0) + e(t+h)</p>
+  <p>b⁺(h) is the response to RONI = +1 (El Niño side) and −b⁻(h) the response to RONI = −1 (La Niña side), so the two can differ in size. The "season of onset" option lets both differ by the season of month t. Month effects remove the seasonal cycle, so the result does not depend on the baseline. Standard errors are Newey and West (1987) with h + 7 lags; bands are 90% intervals. The effect in a given month is shown for all variables. Accumulated Precipitation is an additional indicator on this tab only: the left-hand side is the sum of Precipitation from t to t+h, giving the surplus or deficit built up since onset, in mm or as a percentage of the annual normal. The responses summarise how climate has followed past ENSO events and are not used for prediction: they average over events of different strength and type, ignore the warming trend and other climate drivers, and cannot anticipate how a particular event will develop. Current ENSO and seasonal forecasts from the WMO Lead Centre are shown in ENSO: Outlook (see Seasonal Forecasts under Data and the section below).</p>
+
+  <h2 id="outlook">Seasonal Forecasts (ENSO: Outlook)</h2>
+  <p>Grid cells are matched to the subnational (ADM1) regions of geoBoundaries CGAZ (3,224 regions in 218 countries), weighting each cell by its area and by the share of the cell inside the region. For each region the dashboard computes the share of its area where each category is most likely and the average probability of each category where it is most likely. The region takes the category that is most likely over the largest share of its area, with that category's average probability. Country values combine their regions by area. Because the grid is coarse, small neighbouring regions often share one value. The forecasts are combined by the Lead Centre with weights based on ensemble size (Min et al. 2009); the dashboard does not adjust them. Unlike the local projections, these are genuine forecasts, but their skill varies by region and season and is highest in the tropics and during strong ENSO events.</p>
+
+  <h2 id="disasters">Disaster Analyses (Climate-Related Disasters)</h2>
+  <ul>
+    <li><b>Hazard groups.</b> Flood (all subtypes); tropical cyclone; other storm (extra-tropical, convective, winter storms, hail, tornado and others); drought; heat wave; cold wave and severe winter conditions; wildfire; landslide and other wet mass movement. "All hazards" combines them. Epidemics are not included.</li>
+    <li><b>ENSO phase of an event.</b> The phase of its start month, or of the month 3 or 6 months earlier, to allow for delayed responses (droughts in particular develop over months and are often recorded late).</li>
+    <li><b>Frequency.</b> Events per year spent in each phase: the number of events starting in a phase divided by the time spent in that phase in 2000–2025 (55 El Niño, 140 Neutral and 117 La Niña months at the start month). This corrects for La Niña covering more than twice as much of the period as El Niño. 95% intervals are exact Poisson intervals.</li>
+    <li><b>Rate ratios.</b> The El Niño (or La Niña) rate divided by the Neutral rate, with an exact conditional Poisson test and 95% interval.</li>
+    <li><b>Sensitivity to RONI.</b> Events per ENSO year (2000/01–2024/25) regressed on the year's December–February RONI and a linear trend with quasi-Poisson regression; the incidence rate ratio is the multiple by which yearly counts change per +1 °C of RONI. Estimated where an area has at least 10 events of a hazard. The Spearman correlation of yearly counts with RONI is reported alongside.</li>
+    <li><b>Impacts.</b> Deaths, people injured, total people affected and CPI-adjusted economic damage per event, compared between phases with medians and Wilcoxon rank-sum tests (at least three events per phase), plus totals per year in each phase and the Spearman correlation of yearly totals with RONI.</li>
+    <li><b>Areas.</b> World, each UN subregion and each country. Multi-country disasters appear once per affected country, so world counts are country-events.</li>
+  </ul>
+
+  <h2 id="caveats">Notes and Caveats</h2>
+  <h3>Climate</h3>
+  <ul>
+    <li>1991–2025 holds few events of each kind; groups by strength or type rest on one to six events and are indicative only.</li>
+    <li>Country averages hide opposite signals within large or elongated countries (for example northern and southern Brazil, or Ecuador's coast and highlands).</li>
+    <li>Teleconnections vary over decades; check the rolling correlation before relying on a recent composite.</li>
+    <li>Other climate modes (the Indian Ocean Dipole, the Pacific Decadal Oscillation, the Atlantic) also shape many of the same regions and are not separated out.</li>
+    <li>Significance: with many countries, variables and periods, some results pass p &lt; 0.05 by chance; q-values and coherent patterns across neighbouring months or countries are more reliable than single cells.</li>
+  </ul>
+  <h3>Disasters</h3>
+  <ul>
+    <li>EM-DAT counts reported disasters, which depend on exposure, vulnerability and reporting as much as on the hazard. Reporting changes over time and between countries; the trend term in the sensitivity regression absorbs a steady change, but not shifts tied to particular years.</li>
+    <li>Start dates of slow-onset events such as droughts are uncertain, and droughts can be recorded only once impacts are felt; the 3- and 6-month lags help but do not solve this.</li>
+    <li>Impacts are extremely skewed: one event can dominate a phase's totals. Damage is missing for about two thirds of events and injuries for about three quarters (deaths for 28%, people affected for 22%); damage is reported more often in richer countries.</li>
+    <li>Only 2000–2025 is covered, with about 4.6 years of El Niño; country-level ratios are therefore uncertain and best read alongside the subregion and world results.</li>
+  </ul>
+
+  <h2 id="references">References</h2>
+  <ul>
+    <li>Benjamini, Y. and Hochberg, Y. (1995). Controlling the false discovery rate. <i>Journal of the Royal Statistical Society B</i>, 57, 289–300.</li>
+    <li>Bretherton, C. S. et al. (1999). The effective number of spatial degrees of freedom of a time-varying field. <i>Journal of Climate</i>, 12, 1990–2009.</li>
+    <li>EM-DAT, CRED / UCLouvain, Brussels, Belgium. www.emdat.be.</li>
+    <li>Harris, I., Osborn, T. J., Jones, P. and Lister, D. (2020). Version 4 of the CRU TS monthly high-resolution gridded multivariate climate dataset. <i>Scientific Data</i>, 7, 109.</li>
+    <li>Huang, B. et al. (2021). Improvements of the Daily Optimum Interpolation Sea Surface Temperature (DOISST) version 2.1. <i>Journal of Climate</i>, 34, 2923–2939.</li>
+    <li>Jordà, Ò. (2005). Estimation and inference of impulse responses by local projections. <i>American Economic Review</i>, 95, 161–182.</li>
+    <li>Kug, J.-S., Jin, F.-F. and An, S.-I. (2009). Two types of El Niño events: cold tongue El Niño and warm pool El Niño. <i>Journal of Climate</i>, 22, 1499–1515.</li>
+    <li>Min, Y.-M., Kryjov, V. N. and Park, C.-K. (2009). A probabilistic multimodel ensemble approach to seasonal prediction. <i>Weather and Forecasting</i>, 24, 812–828.</li>
+    <li>Newey, W. K. and West, K. D. (1987). A simple, positive semi-definite, heteroskedasticity and autocorrelation consistent covariance matrix. <i>Econometrica</i>, 55, 703–708.</li>
+    <li>van Oldenborgh, G. J. et al. (2021). Defining El Niño indices in a warming climate. <i>Environmental Research Letters</i>, 16, 044003.</li>
+    <li>Willett, K. M. and Sherwood, S. (2012). Exceedance of heat index thresholds for 15 regions under a warming climate using the wet-bulb globe temperature. <i>International Journal of Climatology</i>, 32, 161–177.</li>
+    <li>WMO Lead Centre for Long-Range Forecast Multi-Model Ensemble, Busan, Republic of Korea. www.wmolc.org.</li>
+    <li>Yeh, S.-W. et al. (2009). El Niño in a changing climate. <i>Nature</i>, 461, 511–514.</li>
+  </ul>
+</main>
+
+<script src="assets/common.js?v=20261021k"></script>
+<script>window.DASH.initHeader(() => {});</script>
+</body>
+</html>

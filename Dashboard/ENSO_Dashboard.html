@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ENSO Climate Dashboard</title>
+<link rel="stylesheet" href="assets/dashboard.css?v=20261021k">
+<style>
+  /* The tab bar stays on top; each page scrolls inside its own frame. Inactive frames are hidden but keep their size,
+     so their charts do not need redrawing when the tab is chosen again. */
+  html, body.shell { height: 100%; }
+  body.shell { display: flex; flex-direction: column; overflow: hidden; }
+  .shell-head { flex: none; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .frames { position: relative; flex: 1; min-height: 0; }
+  .frames iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; visibility: hidden; background: var(--page); }
+  .frames iframe.active { visibility: visible; }
+  .shell-head .brand { text-decoration: none; }
+</style>
+</head>
+<body class="shell">
+<div class="shell-head">
+  <div class="site">
+    <a class="brand" href="#home">Impact of ENSO Variability on Country-Level Climate Indicators and Climate-Related Natural Disasters</a>
+    <nav>
+      <a href="#home" data-page="home">Home</a>
+      <a href="#global" data-page="global">ENSO: Global Variations</a>
+      <a href="#country" data-page="country">ENSO: Country Deep Dives</a>
+      <a href="#disasters" data-page="disasters">Climate-Related Disasters</a>
+      <a href="#outlook" data-page="outlook">ENSO: Outlook</a>
+      <a href="#methods" data-page="methods">Data, Methods and Notes</a>
+    </nav>
+    <div class="right">
+      <div class="seg" id="theme" aria-label="Theme"><button data-v="light">Light</button><button data-v="dark">Dark</button></div>
+    </div>
+  </div>
+</div>
+<div class="frames">
+<iframe name="home" title="Home" data-srcdoc="<!doctype html>
+<html lang=&quot;en&quot;>
+<head>
+<meta charset=&quot;utf-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+<title>Home</title>
+<link rel=&quot;stylesheet&quot; href=&quot;assets/dashboard.css?v=20261021k&quot;>
+<style>
+  .pages .card ul { margin: 6px 0 10px; padding-left: 18px; color: var(--ink-2); font-size: 13px; }
+  .pages .card li { margin: 2px 0; }
+  .pages .card .linkbtn { cursor: pointer; }
+</style>
+</head>
+<body>
+<header class=&quot;top&quot;>
+  <h1>Introduction</h1>
+  <p>The El Niño–Southern Oscillation (ENSO) is the strongest year-to-year swing in the global climate. Every two to seven years the surface of the central and eastern tropical Pacific Ocean warms (El Niño) or cools (La Niña) by one to three degrees, and the winds, air pressure and rainfall over the tropical Pacific shift with it (the Southern Oscillation). Through the atmosphere, these events change temperature and rainfall far from the Pacific, raising the risk of drought in some regions and of floods, storms or heat in others, with knock-on effects on harvests, water, health and economies. This dashboard measures how the climate of every country, and the occurrence and impacts of climate-related disasters, have varied with ENSO, and shows the current forecasts for the coming months.</p>
+</header>
+
+<main>
+  <h2 class=&quot;section&quot; style=&quot;margin-top:12px&quot;>What You Can Explore</h2>
+  <p class=&quot;section-note&quot;>The dashboard has five pages, chosen from the tabs at the top. Every chart has an About This Chart note explaining what it shows and how to read it, and most can be shown as a table.</p>
+  <div class=&quot;grid pages&quot;>
+    <div class=&quot;card w6&quot;>
+      <h3>ENSO: Global Variations</h3>
+      <p class=&quot;desc&quot;>How ENSO has varied since 1950, and where in the world it leaves the strongest mark on national climate.</p>
+      <ul>
+        <li>The Relative Oceanic Niño Index (RONI) month by month, with an ENSO calendar, the El Niño and La Niña years of each decade and the list of episodes with their strength and type.</li>
+        <li>Sea-surface temperature anomalies in the four Niño regions.</li>
+        <li>World maps of the link between ENSO and each climate indicator by season: correlation with RONI, or the El Niño and La Niña anomaly compared with Neutral years.</li>
+        <li>Summaries by United Nations subregion and a ranking of the countries with the strongest links.</li>
+      </ul>
+      <button class=&quot;linkbtn&quot; data-go=&quot;global&quot;>Open ENSO: Global Variations</button>
+    </div>
+    <div class=&quot;card w6&quot;>
+      <h3>ENSO: Country Deep Dives</h3>
+      <p class=&quot;desc&quot;>How ENSO has shaped the climate of one country, for ten climate indicators, any month or season and two baselines.</p>
+      <ul>
+        <li><b>Anomalies in El Niño and La Niña years:</b> anomalies by year since 1991, their distribution by phase, the difference from Neutral years for all indicators, the path through the ENSO year, and the effect of the strength and type of event.</li>
+        <li><b>Correlation with ENSO indices:</b> correlation with RONI for all indicators, a comparison of Niño indices, lead and lag, the scatter of RONI against the anomaly, neighbouring countries and the stability of the link over time.</li>
+        <li><b>Historical climate response to ENSO:</b> how each indicator has evolved in the twelve months after an El Niño or La Niña onset, including Accumulated Precipitation.</li>
+      </ul>
+      <button class=&quot;linkbtn&quot; data-go=&quot;country&quot;>Open ENSO: Country Deep Dives</button>
+    </div>
+    <div class=&quot;card w6&quot;>
+      <h3>Climate-Related Disasters</h3>
+      <p class=&quot;desc&quot;>Floods, storms, droughts, extreme temperatures, wildfires and landslides recorded in EM-DAT from 2000 to 2025, for the world, a UN subregion or a country.</p>
+      <ul>
+        <li><b>How often disasters occur:</b> the frequency in El Niño and La Niña periods compared with Neutral periods, the change per +1 °C of RONI, events per ENSO year, and results by subregion, hazard and country.</li>
+        <li><b>How severe disasters are:</b> deaths, injuries, people affected and economic damage per event and per year in each phase, and the largest events.</li>
+      </ul>
+      <button class=&quot;linkbtn&quot; data-go=&quot;disasters&quot;>Open Climate-Related Disasters</button>
+    </div>
+    <div class=&quot;card w6&quot;>
+      <h3>ENSO: Outlook</h3>
+      <p class=&quot;desc&quot;>Operational forecasts from the WMO Lead Centre for Long-Range Forecast Multi-Model Ensemble.</p>
+      <ul>
+        <li><b>ENSO prediction:</b> the Niño 3.4 forecast of each global prediction system and their multi-model mean for the next six months, against the thresholds of ENSO strength.</li>
+        <li><b>Seasonal forecasts by subnational region:</b> the most likely category of Mean Temperature and Precipitation (below, near or above normal) and its probability for the next four seasons, for every country and ADM1 region.</li>
+      </ul>
+      <button class=&quot;linkbtn&quot; data-go=&quot;outlook&quot;>Open ENSO: Outlook</button>
+    </div>
+    <div class=&quot;card w12&quot;>
+      <h3>Data, Methods and Notes</h3>
+      <p class=&quot;desc&quot;>The data sources, the definitions of ENSO phases, strength and type, the statistical methods and tests behind every chart, the main caveats and the references.</p>
+      <button class=&quot;linkbtn&quot; data-go=&quot;methods&quot;>Open Data, Methods and Notes</button>
+    </div>
+  </div>
+</main>
+
+<script src=&quot;assets/common.js?v=20261021k&quot;></script>
+<script src=&quot;assets/home-page.js?v=20261021k&quot;></script>
+</body>
+</html>
+"></iframe>
+<iframe name="global" title="ENSO: Global Variations" data-srcdoc="<!doctype html>
+<html lang=&quot;en&quot;>
+<head>
+<meta charset=&quot;utf-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+<title>ENSO: Global Variations</title>
+<link rel=&quot;stylesheet&quot; href=&quot;assets/dashboard.css?v=20261021k&quot;>
+</head>
+<body>
+<header class=&quot;top&quot;>
+  <h1>ENSO: Global Variations</h1>
+  <p>This page gives the global picture of the El Niño–Southern Oscillation (ENSO) and how it shapes climate around the world. The first section follows the Relative Oceanic Niño Index (RONI) month by month since 1950, the El Niño and La Niña episodes it defines and the sea-surface temperatures of the four Niño regions, with a slider to choose the years shown. The second section maps, for the climate indicator and season selected, how closely the climate of each country has moved with ENSO, summarises the results by United Nations subregion and ranks the countries with the strongest links. Selecting a country on the map or in the ranking opens it in ENSO: Country Deep Dives.</p>
+</header>
+
+<main>
+  <!-- ===================== History ===================== -->
+  <h2 class=&quot;section&quot; style=&quot;margin-top:12px&quot;>ENSO Since 1950</h2>
+  <p class=&quot;section-note&quot;>The relative Oceanic Niño Index (RONI), the episodes it defines, and the sea-surface temperature of the four Niño regions. The slider sets the years shown in the RONI chart, the ENSO calendar, the Niño regions chart and the list of episodes.</p>
+  <div class=&quot;local-controls&quot;>
+    <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Years shown</span><div id=&quot;hist-range&quot;></div></div>
+  </div>
+  <div class=&quot;grid&quot;>
+    <div class=&quot;card w12&quot; data-chart=&quot;roni&quot;>
+      <div class=&quot;card-head&quot;><div><h3>RONI and ENSO Phase by Month</h3>
+        <p class=&quot;desc&quot;>Monthly RONI coloured by phase, for the years chosen with the slider above.</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> Each bar is one month of NOAA's relative Oceanic Niño Index (RONI): the Niño 3.4 sea-surface temperature anomaly (5°N–5°S, 170°W–120°W) minus the average anomaly of the whole tropical belt, as a 3-month running mean. Subtracting the tropical mean removes the background warming of the oceans, so a value of +1 means the same thing in 1960 and in 2025.</p>
+        <p><b>Colours.</b> Orange months belong to an El Niño episode and blue months to a La Niña episode, following NOAA's rule: RONI at or beyond ±0.5 °C for at least five consecutive overlapping seasons. Gray months are Neutral. A month can be above +0.5 and still be gray if the run was too short to count as an episode. The hairlines mark ±0.5.</p>
+        <p><b>How to read it.</b> Taller bars mean stronger events. Peaks above +2 (1972/73, 1982/83, 1997/98, 2015/16) are the very strong El Niños; long runs of blue (1998–2001, 2020–2023) are multi-year La Niñas. The most recent months can show as Neutral while an event is still building, because NOAA's rule needs five overlapping seasons beyond ±0.5 before it counts as an episode.</p>
+      </div></details>
+      <div class=&quot;plot tall&quot; id=&quot;p-roni&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w8&quot; data-chart=&quot;calendar&quot;>
+      <div class=&quot;card-head&quot;><div><h3>ENSO Calendar</h3>
+        <p class=&quot;desc&quot;>RONI for every month since 1950: one row per year, one column per month.</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> The same monthly RONI values as the chart above, arranged as a calendar: years run down the rows (most recent at the top) and calendar months across the columns. Red cells are warm (El Niño-like) months and blue cells are cool (La Niña-like) months; the deeper the colour, the larger the anomaly. Values beyond ±2.5 share the end colours.</p>
+        <p><b>How to read it.</b> ENSO events are locked to the seasonal cycle: they usually grow from about May, peak between November and January, and fade by the following April to June. That shows up as red or blue bands that start mid-row and spill into the start of the next row. Reading down a column compares the same month across years.</p>
+        <p><b>Use.</b> Hover a cell for the exact value and phase. The pattern is a reminder of why this dashboard uses a June-to-May &quot;ENSO year&quot; rather than the calendar year for annual comparisons.</p>
+      </div></details>
+      <div class=&quot;plot xtall&quot; id=&quot;p-calendar&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w4&quot; data-chart=&quot;decades&quot;>
+      <div class=&quot;card-head&quot;><div><h3>ENSO Years by Decade</h3>
+        <p class=&quot;desc&quot;>Number of El Niño, Neutral and La Niña ENSO years (June to May) in each decade.</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> Each ENSO year runs from June to the following May and takes the phase of its December–February peak. The bars count how many ENSO years of each phase started in each decade; a full decade has ten.</p>
+        <p><b>How to read it.</b> Differences between decades show how unevenly events are spread in time. The 2020s bar is incomplete (2020/21 to the latest complete ENSO year). This also matters for interpreting the country results: 1991–2025 holds more La Niña years than the 1961–1990 baseline, so a long-run average can be tilted by the mix of events.</p>
+      </div></details>
+      <div class=&quot;plot xtall&quot; id=&quot;p-decades&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w12&quot; data-chart=&quot;nino&quot;>
+      <div class=&quot;card-head&quot;><div><h3>Sea-Surface Temperature Anomalies in the Four Niño Regions</h3>
+        <p class=&quot;desc&quot;>Monthly anomalies against 1991–2020 for Niño 1+2 (coast of Peru and Ecuador), Niño 3 (eastern Pacific), Niño 3.4 (central-east) and Niño 4 (central-west).</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> One panel per Niño region, from east (top) to west (bottom). Each line is the monthly sea-surface temperature anomaly in °C against the 1991–2020 average (NOAA OISST). The shading fills the area between the line and zero; hairlines mark ±0.5 °C.</p>
+        <p><b>How to read it.</b> Comparing the panels shows where an event is centred. Eastern Pacific El Niños (1982/83, 1997/98, 2023/24, and the current event) warm Niño 1+2 and Niño 3 the most, with strong effects on coastal South America. Central Pacific El Niños (2004/05, 2009/10) warm Niño 4 more than Niño 3 and have different teleconnections. The dashboard labels each El Niño as Eastern or Central Pacific by comparing Niño 3 and Niño 4 in its DJF months.</p>
+        <p><b>Note.</b> These are absolute anomalies, unlike RONI, so a slow warming trend is still in them.</p>
+      </div></details>
+      <div class=&quot;plot xtall&quot; id=&quot;p-nino&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w12&quot;>
+      <div class=&quot;card-head&quot;><div><h3>ENSO Episodes Since 1950</h3>
+        <p class=&quot;desc&quot;>Every El Niño and La Niña episode under NOAA's five-season rule, newest first.</p></div>
+        <div class=&quot;card-tools&quot;><div class=&quot;seg&quot; id=&quot;ep-filter&quot;><button data-v=&quot;all&quot;>All</button><button data-v=&quot;EN&quot;>El Niño</button><button data-v=&quot;LN&quot;>La Niña</button></div></div></div>
+      <details class=&quot;about&quot;><summary>About This Table</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> One row per episode: its first and last month (centre months of the running seasons), its length in months, the peak RONI and when it occurred, the strength class, and for El Niño since 1982 its type.</p>
+        <p><b>Definitions.</b> Strength comes from the peak |RONI|: weak 0.5–0.9, moderate 1.0–1.4, strong 1.5–1.9, very strong 2.0 and above. Type: Central Pacific when the Niño 4 anomaly exceeds the Niño 3 anomaly in the episode's December–February months, otherwise Eastern Pacific (after Kug et al. 2009 and Yeh et al. 2009). Borderline cases such as 2009/10 are sensitive to this choice. The country pages group events by these strength and type labels.</p>
+      </div></details>
+      <div class=&quot;scroll&quot; id=&quot;episodes&quot;></div>
+    </div>
+  </div>
+
+  <!-- ===================== Teleconnections ===================== -->
+  <h2 class=&quot;section&quot;>Where ENSO Matters: Teleconnections by Country</h2>
+  <p class=&quot;section-note&quot;>How strongly each country's climate moves with ENSO, for the variable and period you pick. Click a country on the map or in the ranking to open its deep dive.</p>
+  <div class=&quot;local-controls&quot;>
+    <div class=&quot;field&quot;><label for=&quot;g-var&quot;>Variable</label><select id=&quot;g-var&quot;></select></div>
+    <div class=&quot;field&quot;><label for=&quot;g-period&quot;>Period</label><select id=&quot;g-period&quot;></select></div>
+    <div class=&quot;field&quot;><label for=&quot;g-layer&quot;>Measure</label>
+      <select id=&quot;g-layer&quot;>
+        <option value=&quot;rL&quot;>Correlation with RONI, 1951–2025</option>
+        <option value=&quot;rR&quot;>Correlation with RONI, 1991–2025</option>
+        <option value=&quot;en&quot;>El Niño − Neutral, 1991–2025 (SD)</option>
+        <option value=&quot;ln&quot;>La Niña − Neutral, 1991–2025 (SD)</option>
+      </select></div>
+    <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Baseline (for SD)</span>
+      <div class=&quot;seg&quot; id=&quot;g-baseline&quot;><button data-v=&quot;B6190&quot;>1961–1990</button><button data-v=&quot;B9120&quot;>1991–2020</button></div></div>
+  </div>
+  <div class=&quot;grid&quot;>
+    <div class=&quot;card w12&quot; data-chart=&quot;map&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;map-title&quot;>World Map</h3>
+        <p class=&quot;desc&quot; id=&quot;map-desc&quot;></p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> Each country is coloured by the measure chosen above, for the selected variable and period (a month, a season, or the June–May ENSO year). Correlation is the Pearson correlation between the country's linearly detrended series and RONI at the centre of the period, over 1951–2025 or 1991–2025. &quot;El Niño − Neutral&quot; and &quot;La Niña − Neutral&quot; are the average difference between years of that phase and Neutral years in 1991–2025, in standard deviations of the selected baseline, so countries with very different climates can be compared.</p>
+        <p><b>Colours.</b> Red means warmer or drier and blue means cooler or wetter, so the colour always has the same physical meaning. For variables where &quot;more&quot; is wetter or cooler (Precipitation, Wet Days, Cloud Cover, Vapour Pressure) the colour scale is flipped. For correlation, red means El Niño brings warmer or drier conditions and La Niña the opposite. Values beyond the ends of the colour bar share the end colours.</p>
+        <p><b>Significance.</b> Countries that fail the test used throughout the dashboard are faded: a false discovery rate q below 0.05 for correlations (which accounts for testing hundreds of countries at once), and a permutation p below 0.05 for differences. Hover shows the value and whether it is significant. Gray land has no data (some small islands are too small to show at this scale).</p>
+      </div></details>
+      <div class=&quot;plot map&quot; id=&quot;p-map&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w8&quot; data-chart=&quot;subregions&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;sub-title&quot;>By UN Subregion and Period</h3>
+        <p class=&quot;desc&quot;>Median across the countries of each UN geoscheme subregion. ● marks subregions where at least half of the countries are significant.</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> Rows are the 22 UN geoscheme subregions (grouped by continent); columns are the months, the four seasons and the June–May ENSO year. Each cell is the median, across the subregion's countries, of the measure chosen above for the selected variable. Hover a cell for the median, the number of countries and how many are individually significant.</p>
+        <p><b>How to read it.</b> The table shows when in the year each part of the world responds to ENSO. For example, rainfall links in Southeast Asia and Australia peak in the second half of the year, while southern Africa responds in December–February. A pale cell can hide opposite signals within one subregion, so check the map or the ranking for detail.</p>
+        <p><b>Colours</b> follow the map: red is warmer or drier, blue cooler or wetter. Click a cell to switch the map and ranking to that period.</p>
+      </div></details>
+      <div class=&quot;plot xtall&quot; id=&quot;p-subregions&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w4&quot; data-chart=&quot;ranking&quot;>
+      <div class=&quot;card-head&quot;><div><h3>Strongest Links</h3>
+        <p class=&quot;desc&quot;>The 20 countries with the largest absolute value of the selected measure.</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> Countries ranked by the size of the measure chosen above, regardless of sign; the bar shows the signed value. Bars are red when the signal is warmer or drier and blue when it is cooler or wetter, matching the map. Faded bars are not significant.</p>
+        <p><b>Use.</b> A quick list of where ENSO matters most for this variable and period. Click a bar to open that country's deep dive. Small islands with sparse station data can rank high or low for reasons unrelated to ENSO; their deep-dive page carries a data-quality flag.</p>
+      </div></details>
+      <div class=&quot;plot xtall&quot; id=&quot;p-ranking&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+  </div>
+
+</main>
+
+<script src=&quot;assets/common.js?v=20261021k&quot;></script>
+<script src=&quot;data/meta.js?v=20261021k&quot;></script>
+<script src=&quot;data/global.js?v=20261021k&quot;></script>
+<script src=&quot;https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js&quot;></script>
+<script src=&quot;assets/global-page.js?v=20261021k&quot;></script>
+</body>
+</html>
+"></iframe>
+<iframe name="country" title="ENSO: Country Deep Dives" data-srcdoc="<!doctype html>
+<html lang=&quot;en&quot;>
+<head>
+<meta charset=&quot;utf-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+<title>ENSO: Country Deep Dives</title>
+<link rel=&quot;stylesheet&quot; href=&quot;assets/dashboard.css?v=20261021k&quot;>
+</head>
+<body>
+<header class=&quot;top&quot;>
+  <h1>ENSO: Country Deep Dives</h1>
+  <p>This page examines how ENSO has shaped the climate of a single country, using CRU country averages for ten climate indicators. The bar below selects the country, the indicator, the month or season, the anomaly baseline and the anomaly unit. The first tab compares anomalies in El Niño, La Niña and Neutral years since 1991; the second measures the correlation with ENSO indices, its timing and its stability over time; the third traces how each indicator has historically responded in the twelve months after an El Niño or La Niña onset. All results describe past relationships and are not forecasts; ENSO: Outlook shows the current WMO multi-model forecasts.</p>
+</header>
+
+<div class=&quot;filters&quot;>
+  <div class=&quot;filters-inner&quot;>
+    <div class=&quot;field country&quot;><label for=&quot;country&quot;>Country</label><select id=&quot;country&quot;></select></div>
+    <div class=&quot;field&quot;><label for=&quot;variable&quot;>Variable</label><select id=&quot;variable&quot;></select></div>
+    <div class=&quot;field&quot;><label for=&quot;period&quot;>Period</label><select id=&quot;period&quot;></select></div>
+    <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Baseline</span>
+      <div class=&quot;seg&quot; id=&quot;baseline&quot;><button data-v=&quot;B6190&quot;>1961–1990</button><button data-v=&quot;B9120&quot;>1991–2020</button></div></div>
+    <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Anomaly</span>
+      <div class=&quot;seg&quot; id=&quot;metric&quot;><button data-v=&quot;abs&quot;>Absolute</button><button data-v=&quot;pct&quot;>% of normal</button></div></div>
+  </div>
+</div>
+
+<nav class=&quot;tabs&quot; role=&quot;tablist&quot;>
+  <button role=&quot;tab&quot; data-tab=&quot;variation&quot;>Anomalies in El Niño and La Niña Years</button>
+  <button role=&quot;tab&quot; data-tab=&quot;correlation&quot;>Correlation with ENSO Indices</button>
+  <button role=&quot;tab&quot; data-tab=&quot;lp&quot;>Historical Climate Response to ENSO</button>
+</nav>
+
+<main>
+  <div class=&quot;country-head&quot; id=&quot;country-head&quot;></div>
+
+  <!-- ===================== Variation by phase ===================== -->
+  <section data-panel=&quot;variation&quot;>
+    <div class=&quot;grid&quot;>
+      <div class=&quot;card tile w3&quot; id=&quot;tile-en&quot;></div>
+      <div class=&quot;card tile w3&quot; id=&quot;tile-ln&quot;></div>
+      <div class=&quot;card tile w3&quot; id=&quot;tile-r&quot;></div>
+      <div class=&quot;card tile w3&quot; id=&quot;tile-n&quot;></div>
+
+      <div class=&quot;card w12&quot; data-chart=&quot;timeline&quot;>
+        <div class=&quot;card-head&quot;><div><h3 id=&quot;timeline-title&quot;>Anomalies by Year</h3>
+          <p class=&quot;desc&quot; id=&quot;timeline-desc&quot;></p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> One bar per year from 1991 to 2025 for the selected variable and period. The bar is the anomaly: the value that year minus the average of the selected baseline (1961–1990 or 1991–2020), in the units chosen under &quot;Anomaly&quot;: the variable's own units, or percent of the normal (Precipitation and Wet Days only).</p>
+          <p><b>Colours.</b> Each bar takes the ENSO phase of its period: for a month, the RONI phase of that month; for a season, that of its middle month (April for MAM, July for JJA, October for SON, January for DJF); for the June–May ENSO year, that of its December–February peak.</p>
+          <p><b>How to read it.</b> If ENSO matters, orange and blue bars sit on opposite sides of the gray ones. Against the 1961–1990 baseline, temperature-type variables drift upwards over time because of warming, so compare the colours with each other rather than with zero; the 1991–2020 baseline removes most of that offset. DJF ends in 2024/25 because the 2025 season needs January–February 2026.</p>
+        </div></details>
+        <div class=&quot;legend-inline&quot; id=&quot;phase-legend&quot;></div>
+        <div class=&quot;plot&quot; id=&quot;p-timeline&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+      <div class=&quot;card w4&quot; data-chart=&quot;box&quot;>
+        <div class=&quot;card-head&quot;><div><h3>Distribution by Phase</h3>
+          <p class=&quot;desc&quot;>Each dot is one year, 1991–2025.</p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> The anomalies of the timeline above, grouped by ENSO phase. Each dot is one year; the box spans the middle half of the years (25th to 75th percentile), the solid line inside it is the median, the dashed line is the mean, and the whiskers reach the most extreme years that are not outliers.</p>
+          <p><b>How to read it.</b> Shifted boxes mean a consistent ENSO effect; overlapping boxes with a few extreme dots mean the effect is driven by a handful of big events (often 1997/98 and 2015/16). Hover a dot to see the year.</p>
+        </div></details>
+        <div class=&quot;plot tall&quot; id=&quot;p-box&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+      <div class=&quot;card w8&quot; data-chart=&quot;heat&quot;>
+        <div class=&quot;card-head&quot;><div><h3 id=&quot;heat-title&quot;>Difference from Neutral Years, All Variables</h3>
+          <p class=&quot;desc&quot;>Phase mean minus Neutral mean, in standard deviations. ● p &amp;lt; 0.05. Click a cell to select it.</p></div>
+          <div class=&quot;card-tools&quot;>
+            <div class=&quot;seg&quot; id=&quot;contrast&quot;><button data-v=&quot;EN&quot;>El Niño</button><button data-v=&quot;LN&quot;>La Niña</button></div>
+            <button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> For every variable (rows) and every month, season and the ENSO year (columns), the average anomaly in El Niño (or La Niña) years minus the average in Neutral years, 1991–2025. Dividing by the standard deviation of the selected baseline puts all variables on one scale: 1.0 means the phase shifts that variable by a full typical year-to-year swing.</p>
+          <p><b>Colours.</b> Red means the phase brings warmer or drier conditions and blue cooler or wetter ones; for Precipitation, Wet Days, Cloud Cover and Vapour Pressure the scale is flipped so the colour keeps that physical meaning. Hover a cell for the value in the variable's own units.</p>
+          <p><b>Significance.</b> ● marks cells where a permutation test (5,000 random reshuffles of the phase labels between phase and Neutral years) gives p below 0.05. With 170 cells, about eight would pass by chance alone, so look for coherent blocks rather than isolated dots. The difference in the variable's own units does not depend on the baseline.</p>
+        </div></details>
+        <div class=&quot;plot tall&quot; id=&quot;p-heat&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+      <div class=&quot;card w12&quot; data-chart=&quot;cycle&quot;>
+        <div class=&quot;card-head&quot;><div><h3>Through the ENSO Year</h3>
+          <p class=&quot;desc&quot;>Monthly anomalies from June (0) to May (+1), averaged by phase. Bands: 95% confidence intervals.</p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> How the selected variable evolves month by month through an ENSO year, from June of the year the event develops (&quot;0&quot;) to May of the year it decays (&quot;+1&quot;). Each line is the average monthly anomaly over the ENSO years 1991/92–2024/25 of that phase (the phase of the December–February peak); n in the legend is the number of years. The shaded band is the 95% confidence interval of the mean.</p>
+          <p><b>How to read it.</b> The chart shows when in the event the country feels it: some regions respond as the event develops (for example Indonesia and Australia in August–November), others at or after the peak (for example southern Africa in December–February, or East Africa in October–December). Where the bands of two phases do not overlap, the difference is likely real.</p>
+        </div></details>
+        <div class=&quot;plot&quot; id=&quot;p-cycle&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+      <div class=&quot;card w12&quot; data-chart=&quot;groups&quot;>
+        <div class=&quot;card-head&quot;><div><h3>By Strength and Type of Event</h3>
+          <p class=&quot;desc&quot;>Mean anomaly for each group with its 95% confidence interval; n is the number of years.</p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> The average anomaly of the selected variable and period for groups of years, 1991–2025: all El Niño, Neutral and La Niña years; El Niño and La Niña split by strength (weak, moderate, strong including very strong, from the peak RONI of the episode); and El Niño split into Eastern and Central Pacific types. Bars for subgroups are lighter than the main phases. Lines show 95% confidence intervals, drawn only for groups with at least three years.</p>
+          <p><b>How to read it.</b> Stronger events usually have larger effects, and Eastern and Central Pacific El Niños can affect the same country differently, even in sign. Groups hold only a few events (n in the label), so treat differences between subgroups as indicative. Hover for the difference from Neutral years and its permutation p-value.</p>
+        </div></details>
+        <div class=&quot;plot&quot; id=&quot;p-groups&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Correlation ===================== -->
+  <section data-panel=&quot;correlation&quot; hidden>
+    <div class=&quot;local-controls&quot;>
+      <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Sample</span>
+        <div class=&quot;seg&quot; id=&quot;sample&quot;><button data-v=&quot;Long&quot;>1951–2025</button><button data-v=&quot;Recent&quot;>1991–2025</button></div></div>
+    </div>
+    <div class=&quot;grid&quot;>
+      <div class=&quot;card w8&quot; data-chart=&quot;corrheat&quot;>
+        <div class=&quot;card-head&quot;><div><h3>Correlation with RONI, All Variables</h3>
+          <p class=&quot;desc&quot;>Detrended Pearson correlation coefficient at lag 0. ● q &amp;lt; 0.05. Click a cell to select it.</p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> The correlation between RONI and each variable (rows) for each month, season and the ENSO year (columns), over 1951–2025 or 1991–2025. RONI is taken at the centre month of the period. A linear trend is removed from both series first, so shared warming does not create a spurious link.</p>
+          <p><b>Colours.</b> Red means El Niño years tend to be warmer or drier and La Niña years cooler or wetter; blue means the reverse. The colour scale is flipped for Precipitation, Wet Days, Cloud Cover and Vapour Pressure so it keeps that meaning. Hover for the correlation coefficient, the period, p and q.</p>
+          <p><b>Significance.</b> p-values use an effective sample size that allows for autocorrelation (Bretherton et al. 1999). ● marks q below 0.05, where q controls the false discovery rate across all countries, variables and periods tested together; it is stricter than p and guards against chance findings.</p>
+        </div></details>
+        <div class=&quot;plot tall&quot; id=&quot;p-corrheat&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+      <div class=&quot;card w4&quot; data-chart=&quot;indices&quot;>
+        <div class=&quot;card-head&quot;><div><h3>Which ENSO Index Matters Most</h3>
+          <p class=&quot;desc&quot; id=&quot;indices-desc&quot;></p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> The detrended correlation of the selected variable and period with five ENSO indices: RONI and the sea-surface temperature anomalies of Niño 1+2 (far east, off Peru), Niño 3 (east), Niño 3.4 (central-east) and Niño 4 (central-west), each as a 3-month mean centred on the period. Gray bars use 1951–2025 (the SST indices start in 1982, so for them it is 1982–2025); green bars use 1991–2025. Filled bars have p below 0.05; hollow bars do not.</p>
+          <p><b>How to read it.</b> A country whose strongest link is with Niño 1+2 or Niño 3 is most affected by Eastern Pacific events; one tied to Niño 4 responds more to Central Pacific events. Similar bars across indices mean the country responds to ENSO as a whole.</p>
+        </div></details>
+        <div class=&quot;plot tall&quot; id=&quot;p-indices&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+      <div class=&quot;card w4&quot; data-chart=&quot;leadlag&quot;>
+        <div class=&quot;card-head&quot;><div><h3>Lead and Lag</h3>
+          <p class=&quot;desc&quot;>Correlation with RONI measured 0–12 months earlier. Filled markers: p &amp;lt; 0.05.</p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> The correlation between the selected variable and period and RONI measured 0 to 12 months before the centre of the period, for both samples. Lag 3 for JJA, for example, uses RONI centred on April.</p>
+          <p><b>How to read it.</b> A correlation that is already strong at long leads means the state of ENSO months ahead carries useful early-warning information for this country and season. A sign change at long leads reflects the typical transition between El Niño and La Niña, not a separate effect.</p>
+        </div></details>
+        <div class=&quot;plot&quot; id=&quot;p-leadlag&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+      <div class=&quot;card w4&quot; data-chart=&quot;scatter&quot;>
+        <div class=&quot;card-head&quot;><div><h3>RONI Against the Anomaly</h3>
+          <p class=&quot;desc&quot;>Each dot is one year, 1991–2025; the line is a least-squares fit.</p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> Each dot is one year: RONI at the centre of the period (horizontal) against the anomaly of the selected variable (vertical, in the chosen units and baseline), coloured by phase. The line is an ordinary least-squares fit; its slope is the average change in the anomaly per 1 °C of RONI. The four years with the largest |RONI| are labelled.</p>
+          <p><b>How to read it.</b> Use it to check whether a correlation is a steady relationship or rests on a few big events, and whether El Niño and La Niña act symmetrically (for example, a strong drop on the right but little change on the left). Unlike the correlation heat table, this view is not detrended.</p>
+        </div></details>
+        <div class=&quot;plot&quot; id=&quot;p-scatter&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+      <div class=&quot;card w4&quot; data-chart=&quot;neighbours&quot;>
+        <div class=&quot;card-head&quot;><div><h3 id=&quot;neighbours-title&quot;>Compared with the UN Subregion</h3>
+          <p class=&quot;desc&quot;>Correlation with RONI for every country in the same UN subregion.</p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> The detrended correlation with RONI (lag 0, selected sample) for the selected variable and period, for every country in the selected country's UN geoscheme subregion. The selected country is outlined; faded bars are not significant (q of 0.05 or more).</p>
+          <p><b>How to read it.</b> If neighbours agree, the signal is regional and robust; if the selected country stands out, check its data-quality flag or its geography (for example a country spanning both sides of the equator). Click a bar to switch to that country.</p>
+        </div></details>
+        <div class=&quot;plot tall&quot; id=&quot;p-neighbours&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+      <div class=&quot;card w12&quot; data-chart=&quot;rolling&quot;>
+        <div class=&quot;card-head&quot;><div><h3>Is the Link Stable?</h3>
+          <p class=&quot;desc&quot;>Correlation with RONI in 21-year windows. Hairlines at ±0.43 mark p ≈ 0.05.</p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> The detrended correlation with RONI (lag 0) computed in moving 21-year windows from 1951 to 2025, plotted at each window's centre year (1961 covers 1951–1971).</p>
+          <p><b>How to read it.</b> Teleconnections can weaken or strengthen over decades, for example with the Pacific Decadal Oscillation, the Indian Ocean or the mix of Eastern and Central Pacific events. A line that stays outside the ±0.43 hairlines (the 5% significance level for 21 years) shows a dependable link; one that wanders across zero suggests treating recent composites with caution.</p>
+        </div></details>
+        <div class=&quot;plot short&quot; id=&quot;p-rolling&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== Historical climate response to ENSO (local projections) ===================== -->
+  <section data-panel=&quot;lp&quot; hidden>
+    <div class=&quot;local-controls&quot;>
+      <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Season of onset</span>
+        <div class=&quot;seg&quot; id=&quot;onset&quot;><button data-v=&quot;All&quot;>All seasons</button><button data-v=&quot;DJF&quot;>DJF</button><button data-v=&quot;MAM&quot;>MAM</button><button data-v=&quot;JJA&quot;>JJA</button><button data-v=&quot;SON&quot;>SON</button></div></div>
+      <div class=&quot;field&quot; id=&quot;cumunit-field&quot;><span class=&quot;lbl&quot;>Accumulated Precipitation in</span>
+        <div class=&quot;seg&quot; id=&quot;cumunit&quot;><button data-v=&quot;mm&quot;>mm</button><button data-v=&quot;pct&quot;>% of annual normal</button></div></div>
+    </div>
+    <div class=&quot;grid&quot;>
+      <div class=&quot;card w12&quot; data-chart=&quot;lpm&quot;>
+        <div class=&quot;card-head&quot;><div><h3 id=&quot;lpm-title&quot;>Historical Response by Month After Onset</h3>
+          <p class=&quot;desc&quot; id=&quot;lpm-desc&quot;></p></div>
+          <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+        <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> How the selected variable has historically behaved h months after an &quot;onset&quot; month in which RONI equals +1 (El Niño, orange) or −1 (La Niña, blue), for h = 0 to 12, compared with a month in which RONI is 0: the average anomaly that followed past events. Bands are 90% confidence intervals. For <b>Accumulated Precipitation</b> the line is instead the total extra (+) or missing (−) Precipitation from the onset month to h months later, in mm or as a percentage of the normal annual total: the size of the rainfall deficit or surplus that matters for soil moisture, reservoirs and harvests.</p>
+          <p><b>How it is computed.</b> Local projections (Jordà 2005) on monthly data, 1951–2025: for each horizon h, the value at month t+h (or, for Accumulated Precipitation, the sum from t to t+h) is regressed on the positive and negative parts of RONI at month t, with calendar-month effects (which remove the seasonal cycle, so the result does not depend on the baseline) and a quadratic trend. Separate El Niño and La Niña coefficients allow the two to differ in size. With &quot;season of onset&quot;, the coefficients also differ by the season of month t, since a July event and a January event affect the following months differently. Standard errors are Newey-West with h+7 lags.</p>
+          <p><b>How to read it.</b> The response at h includes the usual evolution of past events after month t (events tend to persist and peak around December). It is per 1 °C of RONI and scales roughly in proportion for stronger events. It describes the past and is not a forecast: current ENSO and seasonal forecasts are shown in ENSO: Outlook. For Accumulated Precipitation, a curve that keeps falling means the deficit keeps growing, one that flattens means it is not made up later, and one that turns back towards zero means later rains partly compensate.</p>
+        </div></details>
+        <div class=&quot;legend-inline&quot; id=&quot;lp-legend&quot;></div>
+        <div class=&quot;plot&quot; id=&quot;p-lpm&quot;></div><div class=&quot;tablewrap&quot;></div>
+      </div>
+
+      <div class=&quot;card w12&quot;>
+        <div class=&quot;card-head&quot;><div><h3>Summary for All Variables</h3>
+          <p class=&quot;desc&quot; id=&quot;lpsum-desc&quot;></p></div></div>
+        <details class=&quot;about&quot;><summary>About This Table</summary><div class=&quot;body&quot;>
+          <p><b>What it shows.</b> The historical responses of the chart above for every variable at selected horizons (0, 2, 4, 6, 9 and 12 months after onset), for RONI = +1 (El Niño) and −1 (La Niña), with the selected season of onset. The last row is Accumulated Precipitation in mm. Bold values have 90% confidence intervals that exclude zero; gray values do not.</p>
+        </div></details>
+        <div id=&quot;lpsum&quot; style=&quot;overflow:auto&quot;></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src=&quot;assets/common.js?v=20261021k&quot;></script>
+<script src=&quot;data/meta.js?v=20261021k&quot;></script>
+<script src=&quot;data/global.js?v=20261021k&quot;></script>
+<script src=&quot;https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js&quot;></script>
+<script src=&quot;assets/country-page.js?v=20261021k&quot;></script>
+</body>
+</html>
+"></iframe>
+<iframe name="disasters" title="Climate-Related Disasters" data-srcdoc="<!doctype html>
+<html lang=&quot;en&quot;>
+<head>
+<meta charset=&quot;utf-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+<title>Climate-Related Disasters</title>
+<link rel=&quot;stylesheet&quot; href=&quot;assets/dashboard.css?v=20261021k&quot;>
+</head>
+<body>
+<header class=&quot;top&quot;>
+  <h1>Climate-Related Disasters</h1>
+  <p id=&quot;intro&quot;>This page relates the climate-related natural disasters recorded in the EM-DAT database from 2000 to 2025 to ENSO, for the world, a UN subregion or a single country. The first section compares how often floods, storms, droughts, heat and cold waves, wildfires and landslides start during El Niño, La Niña and Neutral periods, after allowing for the time spent in each phase, and how the number of disasters each year changes with the strength of ENSO. The second section compares their human and economic impacts: deaths, injuries, people affected and economic damage.</p>
+</header>
+
+<div class=&quot;filters&quot;>
+  <div class=&quot;filters-inner&quot;>
+    <div class=&quot;field country&quot;><label for=&quot;scope&quot;>Area</label><select id=&quot;scope&quot;></select></div>
+    <div class=&quot;field&quot;><label for=&quot;hazard&quot;>Hazard</label><select id=&quot;hazard&quot;></select></div>
+    <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Compare with Neutral</span>
+      <div class=&quot;seg&quot; id=&quot;phase&quot;><button data-v=&quot;EN&quot;>El Niño</button><button data-v=&quot;LN&quot;>La Niña</button></div></div>
+    <div class=&quot;field&quot;><span class=&quot;lbl&quot;>ENSO phase measured</span>
+      <div class=&quot;seg&quot; id=&quot;lag&quot;><button data-v=&quot;0&quot;>At start</button><button data-v=&quot;3&quot;>3 months earlier</button><button data-v=&quot;6&quot;>6 months earlier</button></div></div>
+  </div>
+</div>
+
+<main>
+  <div class=&quot;country-head&quot; id=&quot;scope-head&quot;></div>
+  <h2 class=&quot;section&quot; style=&quot;margin-top:4px&quot;>How Often Disasters Occur</h2>
+  <p class=&quot;section-note&quot;>Frequency of disasters in El Niño, La Niña and Neutral periods, and how it changes with the strength of ENSO.</p>
+  <div class=&quot;grid&quot;>
+    <div class=&quot;card w6&quot; data-chart=&quot;ratios&quot;>
+      <div class=&quot;card-head&quot;><div><h3>Frequency Compared with Neutral Periods</h3>
+        <p class=&quot;desc&quot; id=&quot;ratios-desc&quot;></p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> For each hazard, the rate at which disasters start during El Niño (orange) and La Niña (blue) periods divided by the rate during Neutral periods, with 95% confidence intervals. Rates are events per year spent in each phase, so the uneven time in each phase (2000–2025: about 4.6 years of El Niño, 9.8 of La Niña and 11.7 of Neutral months) does not distort the comparison.</p>
+        <p><b>How to read it.</b> A ratio of 1.5 means disasters of that type start 50% more often than in Neutral periods; 0.5 means half as often. The axis is logarithmic, so equal distances mean equal multiples. Filled markers have an exact Poisson test p below 0.05. Small areas or rare hazards give very wide intervals.</p>
+      </div></details>
+      <div class=&quot;plot tall&quot; id=&quot;p-ratios&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w6&quot; data-chart=&quot;sens&quot;>
+      <div class=&quot;card-head&quot;><div><h3>Change in Frequency per +1 °C of RONI</h3>
+        <p class=&quot;desc&quot;>Events per ENSO year regressed on December–February RONI, 2000/01–2024/25, with a trend.</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> The number of disasters starting in each ENSO year (June to May) is modelled as a function of that year's December–February RONI and a linear time trend (quasi-Poisson regression, which allows for extra variation). The marker is the incidence rate ratio: the multiple by which yearly event counts change for each +1 °C of RONI, with its 95% confidence interval. Because RONI is negative in La Niña years, a value below 1 means more events in La Niña years and fewer in El Niño years.</p>
+        <p><b>Correlation.</b> Hover for the Spearman rank correlation between yearly counts and RONI. Only hazards with at least 10 events in the selected area are estimated. With 25 ENSO years, only strong links reach significance (filled markers, p below 0.05).</p>
+      </div></details>
+      <div class=&quot;plot tall&quot; id=&quot;p-sens&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w12&quot; data-chart=&quot;timeline&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;timeline-title&quot;>Disasters per ENSO Year</h3>
+        <p class=&quot;desc&quot;>Top: December–February RONI of each ENSO year. Bottom: number of disasters starting in that ENSO year (June to May), coloured by the year's phase.</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> Each column is one ENSO year, from June to the following May, labelled by its June (2000 covers June 2000 to May 2001). The top panel shows the strength of the ENSO peak that year; the bottom panel counts the disasters of the selected hazard that started in the selected area during that year, coloured by the ENSO year's phase.</p>
+        <p><b>How to read it.</b> Look for the counts to rise or fall with the top panel. EM-DAT reporting also changes over time, and some years carry one or two very large events or widespread multi-country disasters, so single years should not be over-read. The frequency and sensitivity charts above put a number on the overall link.</p>
+      </div></details>
+      <div class=&quot;local-controls&quot; style=&quot;margin:2px 0 0&quot;>
+        <div class=&quot;field&quot;><span class=&quot;lbl&quot;>ENSO years shown</span><div id=&quot;timeline-range&quot;></div></div>
+      </div>
+      <div class=&quot;plot tall&quot; id=&quot;p-timeline&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w8&quot; data-chart=&quot;subheat&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;subheat-title&quot;>By UN Subregion and Hazard</h3>
+        <p class=&quot;desc&quot;>Rate compared with Neutral periods, by UN subregion. ● p &amp;lt; 0.05. Click a cell to select that subregion and hazard.</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> For every UN geoscheme subregion (rows) and hazard (columns), the ratio of the disaster rate during the selected phase (El Niño or La Niña, chosen above) to the rate during Neutral periods. Red cells mean more frequent than in Neutral periods and blue cells less frequent; the colour scale is logarithmic, from a quarter to four times the Neutral rate. Cells are left empty when the phase and Neutral periods together hold fewer than 10 events, because ratios from a few events are unreliable.</p>
+        <p><b>How to read it.</b> The table highlights where ENSO shifts disaster frequency most. Cells built on few events can still show extreme ratios by chance; hover for the counts behind each cell, and rely on cells marked ● (exact Poisson test p below 0.05).</p>
+      </div></details>
+      <div class=&quot;plot xtall&quot; id=&quot;p-subheat&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w4&quot; data-chart=&quot;rates&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;rates-title&quot;>Events per Year in Each Phase</h3>
+        <p class=&quot;desc&quot;>Average number of disasters starting per year spent in each phase, with 95% intervals.</p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> For the selected area and hazard, the number of disasters that started in each phase divided by the years spent in that phase over 2000–2025, with exact Poisson 95% intervals. Hover for the event count and the time spent in each phase.</p>
+        <p><b>Use.</b> The absolute counterpart of the ratio charts: it shows how many events to expect per year of El Niño, Neutral or La Niña conditions.</p>
+      </div></details>
+      <div class=&quot;plot xtall&quot; id=&quot;p-rates&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w12&quot; data-chart=&quot;map&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;map-title&quot;>Countries</h3>
+        <p class=&quot;desc&quot; id=&quot;map-desc&quot;></p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> For each country with at least 10 disasters of the selected hazard in the two periods compared, the ratio of the disaster rate during the selected phase to the rate during Neutral periods. Red means more frequent and blue less frequent; the scale is logarithmic. Faded countries have an exact Poisson test p of 0.05 or more.</p>
+        <p><b>Caveat.</b> Country counts are small, so most ratios are uncertain; EM-DAT also records multi-country events once per country. Click a country to select it as the area.</p>
+      </div></details>
+      <div class=&quot;plot map&quot; id=&quot;p-map&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+  </div>
+
+  <h2 class=&quot;section&quot;>How Severe Disasters Are</h2>
+  <p class=&quot;section-note&quot;>Human and economic impacts of the disasters that start in each phase, for the area and hazard selected above.</p>
+  <div class=&quot;local-controls&quot;>
+    <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Impact</span>
+      <div class=&quot;seg&quot; id=&quot;measure&quot;><button data-v=&quot;Deaths&quot;>Deaths</button><button data-v=&quot;Injured&quot;>People injured</button><button data-v=&quot;Affected&quot;>People affected</button><button data-v=&quot;Damage&quot;>Economic damage</button></div></div>
+  </div>
+  <div class=&quot;grid&quot;>
+    <div class=&quot;card w6&quot; data-chart=&quot;impact&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;impact-title&quot;>Impact per Event</h3>
+        <p class=&quot;desc&quot; id=&quot;impact-desc&quot;></p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> The impact of each disaster, by the ENSO phase at its start: deaths; people injured; people affected (injured, made homeless or needing immediate assistance, EM-DAT's total affected); or economic damage in millions of US$ adjusted for inflation by EM-DAT. Each dot is one event with a reported value; boxes show the quartiles and median. The axis is logarithmic because impacts span several orders of magnitude.</p>
+        <p><b>How to read it.</b> Higher medians mean typical events are more severe. Many events have no reported value (most often injuries and damage), so the sample can be small. With the phase measured at the start, the description gives Wilcoxon rank-sum p-values for El Niño and La Niña against Neutral.</p>
+      </div></details>
+      <div class=&quot;plot tall&quot; id=&quot;p-impact&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w6&quot; data-chart=&quot;burden&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;burden-title&quot;>Total Impact per Year in Each Phase</h3>
+        <p class=&quot;desc&quot; id=&quot;burden-desc&quot;></p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> The sum of the selected impact over all disasters starting in each phase, divided by the years spent in that phase: the average yearly burden during El Niño, Neutral and La Niña conditions.</p>
+        <p><b>Caveat.</b> Totals are dominated by a few catastrophes: a single cyclone, flood or drought can account for most of a phase's deaths or damage (see the table of largest events below). The description reports the Spearman correlation of yearly totals with RONI, which is less sensitive to such outliers.</p>
+      </div></details>
+      <div class=&quot;plot tall&quot; id=&quot;p-burden&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+
+    <div class=&quot;card w12&quot; data-chart=&quot;largest&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;largest-title&quot;>Largest Events</h3>
+        <p class=&quot;desc&quot;>The ten events with the largest selected impact in the selected area and hazard, with the ENSO phase at the time.</p></div></div>
+      <details class=&quot;about&quot;><summary>About This Table</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> The most severe recorded events, ranked by the selected impact, with their start month, country, EM-DAT subtype and name where one is given, and the ENSO phase measured as chosen above. It shows which events drive the totals in the chart above.</p>
+      </div></details>
+      <div class=&quot;scroll&quot; id=&quot;largest&quot;></div>
+    </div>
+  </div>
+</main>
+
+<script src=&quot;assets/common.js?v=20261021k&quot;></script>
+<script src=&quot;data/meta.js?v=20261021k&quot;></script>
+<script src=&quot;data/disasters.js?v=20261021k&quot;></script>
+<script src=&quot;https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js&quot;></script>
+<script src=&quot;assets/disasters-page.js?v=20261021k&quot;></script>
+</body>
+</html>
+"></iframe>
+<iframe name="outlook" title="ENSO: Outlook" data-srcdoc="<!doctype html>
+<html lang=&quot;en&quot;>
+<head>
+<meta charset=&quot;utf-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+<title>ENSO: Outlook</title>
+<link rel=&quot;stylesheet&quot; href=&quot;assets/dashboard.css?v=20261021k&quot;>
+</head>
+<body>
+<header class=&quot;top&quot;>
+  <h1>ENSO: Outlook</h1>
+  <p id=&quot;intro&quot;>This page brings together operational forecasts from the World Meteorological Organization for the coming months. The first section shows the multi-model forecast of the Niño 3.4 sea-surface temperature anomaly, which indicates how strong the current ENSO event is expected to become. The second section shows the multi-model seasonal forecasts of Mean Temperature and Precipitation for every subnational (ADM1) region and country, as the most likely of three categories (below, near or above normal) and its probability. Unlike the historical relationships on the other pages, these are forecasts issued by the WMO Lead Centre for Long-Range Forecast Multi-Model Ensemble from the latest runs of a dozen global prediction systems.</p>
+</header>
+
+<main>
+  <h2 class=&quot;section&quot; style=&quot;margin-top:12px&quot;>ENSO Prediction</h2>
+  <p class=&quot;section-note&quot;>The expected strength of El Niño or La Niña over the coming months, from the multi-model Niño 3.4 forecast.</p>
+  <div class=&quot;grid&quot;>
+    <div class=&quot;card w12&quot; data-chart=&quot;nino&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;nino-title&quot;>Multi-Model Forecast of the Niño 3.4 Anomaly</h3>
+        <p class=&quot;desc&quot; id=&quot;nino-desc&quot;></p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> The forecast sea-surface temperature anomaly of the Niño 3.4 region (5°N–5°S, 170°W–120°W) for each of the next six months, from each global prediction system contributing to the WMO Lead Centre (thin lines) and their multi-model mean (thick line). The anomaly is relative to each system's own hindcast climate, which removes model biases.</p>
+        <p><b>How to read it.</b> The hairlines mark the thresholds used for ENSO strength: ±0.5 °C (weak), ±1.0 °C (moderate), ±1.5 °C (strong) and ±2.0 °C (very strong). The thresholds are defined for three-month means, so single months are a guide to strength. The spread of the thin lines shows the uncertainty: when the systems agree closely, the forecast strength is more reliable. Niño 3.4 forecasts are an absolute index; NOAA's operational definition uses the relative index (RONI), which is usually a little lower during warm events because the whole tropics are warmer than normal.</p>
+      </div></details>
+      <div id=&quot;nino-msg&quot;></div>
+      <div class=&quot;plot tall&quot; id=&quot;p-nino&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+  </div>
+
+  <h2 class=&quot;section&quot;>Seasonal Forecasts by Subnational Region</h2>
+  <p class=&quot;section-note&quot; id=&quot;forecast-note&quot;></p>
+  <div class=&quot;local-controls&quot;>
+    <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Climate indicator</span>
+      <div class=&quot;seg&quot; id=&quot;f-var&quot;><button data-v=&quot;TMP&quot;>Mean Temperature</button><button data-v=&quot;PRE&quot;>Precipitation</button></div></div>
+    <div class=&quot;field&quot;><span class=&quot;lbl&quot;>Season</span><div class=&quot;seg&quot; id=&quot;f-period&quot;></div></div>
+    <div class=&quot;field country&quot;><label for=&quot;f-country&quot;>Area</label><select id=&quot;f-country&quot;></select></div>
+  </div>
+  <div class=&quot;grid&quot;>
+    <div class=&quot;card w12&quot; data-chart=&quot;fmap&quot;>
+      <div class=&quot;card-head&quot;><div><h3 id=&quot;fmap-title&quot;>Most Likely Category</h3>
+        <p class=&quot;desc&quot; id=&quot;fmap-desc&quot;></p></div>
+        <div class=&quot;card-tools&quot;><button class=&quot;tbtn&quot; data-table>Table</button></div></div>
+      <details class=&quot;about&quot;><summary>About This Chart</summary><div class=&quot;body&quot;>
+        <p><b>What it shows.</b> For the selected climate indicator and season, the category the WMO multi-model forecast considers most likely in each country (world view) or in each ADM1 region of the selected country: below normal, near normal or above normal, defined as the lower, middle and upper thirds of each prediction system's own hindcast climate. The deeper the colour, the higher the probability of that category; near normal is gray.</p>
+        <p><b>How it is computed.</b> The Lead Centre provides, on a 2.5° grid, the most likely category and its probability, combining the probabilities of each system with weights based on ensemble size (Min et al. 2009). For each region, grid cells are weighted by their area and by the share of the cell inside the region. The region takes the category that is most likely over the largest share of its area, with the average probability of that category; hover shows the share of the area where each category is most likely. Country values combine their regions by area.</p>
+        <p><b>Caveats.</b> A 2.5° cell (about 275 km at the equator) is larger than many regions, so neighbouring small regions often share one value. Probabilities near 33–40% mean the forecast leans only slightly towards that category. Seasonal forecasts are more reliable in the tropics and during strong ENSO events than in the mid-latitudes. Click a country on the world map to see its regions.</p>
+      </div></details>
+      <div class=&quot;plot map&quot; id=&quot;p-fmap&quot;></div><div class=&quot;tablewrap&quot;></div>
+    </div>
+  </div>
+</main>
+
+<script src=&quot;assets/common.js?v=20261021k&quot;></script>
+<script src=&quot;data/meta.js?v=20261021k&quot;></script>
+<script src=&quot;data/outlook.js?v=20261021k&quot;></script>
+<script src=&quot;data/adm1_geo.js?v=20261021k&quot;></script>
+<script src=&quot;https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js&quot;></script>
+<script src=&quot;assets/outlook-page.js?v=20261021k&quot;></script>
+</body>
+</html>
+"></iframe>
+<iframe name="methods" title="Data, Methods and Notes" data-srcdoc="<!doctype html>
+<html lang=&quot;en&quot;>
+<head>
+<meta charset=&quot;utf-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+<title>Data, Methods and Notes</title>
+<link rel=&quot;stylesheet&quot; href=&quot;assets/dashboard.css?v=20261021k&quot;>
+<style>
+  main.prose { max-width: 1440px; }
+  .prose h2 { font-size: 18px; margin: 30px 0 6px; padding-top: 6px; border-top: 1px solid var(--border); }
+  .prose h2:first-of-type { border-top: 0; }
+  .prose h3 { font-size: 15px; margin: 18px 0 4px; color: var(--ink); }
+  .prose p, .prose li { color: var(--ink-2); }
+  .prose li { margin-bottom: 4px; }
+  .prose code { font-size: 12.5px; background: var(--wash); padding: 1px 4px; border-radius: 4px; }
+  .prose table.data { margin: 8px 0 12px; }
+  .prose table.data th { text-align: left; }
+  .prose table.data td { white-space: normal; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+  .prose code { overflow-wrap: anywhere; }
+  .formula { overflow-x: auto; }
+  .toc { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 10px 0 4px; font-size: 13px; }
+  .toc a { color: var(--ink-2); }
+  .formula { font-family: ui-monospace, Consolas, monospace; font-size: 13px; background: var(--wash); padding: 8px 10px; border-radius: 6px; color: var(--ink); }
+</style>
+</head>
+<body>
+<header class=&quot;top&quot;>
+  <h1>Data, Methods and Notes</h1>
+  <p>This page documents the data sources, definitions and statistical methods behind every page of the dashboard, from the classification of ENSO phases to the tests used for climate anomalies, correlations, historical responses and disasters. It closes with the main caveats to keep in mind when reading the results and the references for each method.</p>
+  <div class=&quot;toc&quot;>
+    <a href=&quot;#data&quot;>Data</a><a href=&quot;#variables&quot;>Variables and WBGT</a><a href=&quot;#enso&quot;>ENSO Conditions</a><a href=&quot;#climate&quot;>Climate Analyses</a><a href=&quot;#outlook&quot;>Seasonal Forecasts</a>
+    <a href=&quot;#disasters&quot;>Disaster Analyses</a><a href=&quot;#caveats&quot;>Notes and Caveats</a><a href=&quot;#references&quot;>References</a>
+  </div>
+</header>
+
+<main class=&quot;prose&quot;>
+  <h2 id=&quot;data&quot;>Data</h2>
+  <h3>Climate</h3>
+  <p>CRU-CY version 4.10 (University of East Anglia, released June 2026): country averages of the CRU TS 4.10 gridded dataset, monthly from 1901 to 2025, with CRU's own seasonal (MAM, JJA, SON, DJF) and annual values. Country averages are area-weighted means of the 0.5° grid cells in each country. 219 countries and territories are used. CRU names are matched to ISO codes through an explicit crosswalk, because automatic matching assigns the Bassas da India atoll to India and misses South Korea, St Lucia, Puerto Rico, Vanuatu and Kosovo. Sub-national islands in CRU-CY (for example Hawaii or the Galápagos) are not used.</p>
+  <h3>ENSO Indices</h3>
+  <p>NOAA's relative Oceanic Niño Index (RONI), January 1950 onwards, as 3-month running seasons. RONI is the Niño 3.4 sea-surface temperature anomaly minus the mean anomaly of the tropical oceans (20°N–20°S), rescaled to the variance of the traditional index, so that background ocean warming does not shift the ENSO thresholds. Monthly Niño 1+2, 3, 3.4 and 4 sea-surface temperature anomalies (NOAA OISST v2.1, 1991–2020 base) from January 1982 are used for event types and for the index comparison.</p>
+  <h3>Disasters</h3>
+  <p>EM-DAT, the international disaster database (CRED / UCLouvain, Brussels; public data, version of 12 October 2026). EM-DAT records a disaster when it meets at least one of: 10 or more deaths, 100 or more people affected, a declaration of a state of emergency, or a call for international assistance. The analysis covers climate-related natural hazards (floods, storms, droughts, extreme temperature, wildfires and wet mass movements) starting from 2000. Epidemics in the extract (895 records) are excluded, as are events starting in 2026 (148), because the year is incomplete and recent entries are still being added, 49 events without a start month and 8 glacial lake outburst floods, leaving 8,925 events. Damage uses EM-DAT's CPI-adjusted total damage, shown in millions of US$.</p>
+  <h3>Seasonal Forecasts</h3>
+  <p>ENSO: Outlook uses the probabilistic multi-model ensemble (PMME) forecasts of the WMO Lead Centre for Long-Range Forecast Multi-Model Ensemble (WMO LC-LRFMME, www.wmolc.org), which combines the monthly runs of the WMO Global Producing Centres. The forecasts of Mean Temperature (2 m air temperature) and Precipitation are given on a 2.5° grid for the next four overlapping three-month seasons, as the most likely of three equally likely categories (below, near and above normal, from each system's hindcast climate) and its probability. The Niño 3.4 forecast of each system and their multi-model mean come from the Lead Centre's Climate Indices product.</p>
+  <h3>Regions</h3>
+  <p>Countries are grouped by the UN geoscheme (M49): five continental regions and 22 subregions, using the intermediate region where the UN defines one (Caribbean, Central America and South America; Eastern, Middle, Southern and Western Africa). Kosovo, Taiwan and a few EM-DAT territories without an M49 code are assigned by hand.</p>
+  <h3>Data Quality</h3>
+  <p>CRU TS fills grid cells without nearby stations with the 1961–1990 climatology, so in data-sparse countries the record contains repeated values and damped anomalies. The country pages flag countries where at least 15% of 1991–2025 monthly Precipitation values (in months with at least 10 mm normal) occur three or more times for the same calendar month. Potential Evapotranspiration is not available for 13 small islands.</p>
+
+  <h2 id=&quot;variables&quot;>Variables and WBGT</h2>
+  <table class=&quot;data&quot;>
+    <thead><tr><th>Code</th><th>Variable</th><th>Unit</th></tr></thead>
+    <tbody>
+      <tr><td>TMP</td><td>Mean Temperature</td><td>°C</td></tr>
+      <tr><td>TMX</td><td>Maximum Temperature (mean daily maximum)</td><td>°C</td></tr>
+      <tr><td>TMN</td><td>Minimum Temperature (mean daily minimum)</td><td>°C</td></tr>
+      <tr><td>DTR</td><td>Diurnal Temperature Range</td><td>°C</td></tr>
+      <tr><td>WBGT</td><td>Wet-Bulb Globe Temperature (Daytime, Simplified), derived</td><td>°C</td></tr>
+      <tr><td>PRE</td><td>Precipitation</td><td>mm</td></tr>
+      <tr><td>WET</td><td>Wet Days (days with at least 0.1 mm)</td><td>days</td></tr>
+      <tr><td>CLD</td><td>Cloud Cover</td><td>%</td></tr>
+      <tr><td>VAP</td><td>Vapour Pressure</td><td>hPa</td></tr>
+      <tr><td>PET</td><td>Potential Evapotranspiration (Penman-Monteith)</td><td>mm/day</td></tr>
+    </tbody>
+  </table>
+  <h3>Wet-Bulb Globe Temperature</h3>
+  <p>WBGT is the standard index of heat stress for work and exercise. The full index needs wind speed and solar radiation, which CRU does not provide, so the dashboard uses the simplified WBGT of the Australian Bureau of Meteorology, widely used with monthly climate data (for example Willett and Sherwood 2012):</p>
+  <p class=&quot;formula&quot;>WBGT = 0.567 × T + 0.393 × e + 3.94</p>
+  <p>with T the air temperature (°C) and e the Vapour Pressure (hPa). Using the Maximum Temperature (TMX) with the mean Vapour Pressure (VAP) gives a daytime value. Because the formula is linear, it applies equally to monthly, seasonal and annual means.</p>
+  <p>Caveats: the simplified formula assumes moderate sunshine and light wind, so it overstates heat stress in the shade or in windy conditions and understates it in full sun with no wind. Monthly country averages smooth out the hot days and hot places where heat stress matters most, so levels are well below daily extremes. The index is best used, as here, for comparing years and ENSO phases within a country rather than for absolute thresholds.</p>
+
+  <h2 id=&quot;enso&quot;>ENSO Conditions</h2>
+  <ul>
+    <li><b>Phase.</b> Each RONI season is placed on its centre month (DJF on January). A month is El Niño (La Niña) when it belongs to a run of at least five consecutive overlapping seasons with RONI at or above +0.5 °C (at or below −0.5 °C), following NOAA's operational definition. Other months are Neutral. A run that reaches the latest month but is still shorter than five seasons is reported as &quot;conditions, episode not yet confirmed&quot;.</li>
+    <li><b>Strength.</b> From the episode's peak |RONI|: weak 0.5–0.9, moderate 1.0–1.4, strong 1.5–1.9, very strong 2.0 and above. Strong and very strong are merged in composites because each holds only a few events since 1991.</li>
+    <li><b>Type of El Niño</b> (from 1982). Central Pacific when the Niño 4 anomaly exceeds the Niño 3 anomaly in the episode's December–February months (all its months if it has none), otherwise Eastern Pacific (after Kug et al. 2009 and Yeh et al. 2009). Borderline cases such as 2009/10 are sensitive to this rule.</li>
+    <li><b>Period of a climate value.</b> A month takes the phase of that month; a season the phase of its centre month (April for MAM, July for JJA, October for SON). CRU labels DJF by the year of its December, so DJF 2023 (December 2023 to February 2024) takes the phase of January 2024.</li>
+    <li><b>ENSO year.</b> June to the following May, labelled by its June. It takes the phase of its December–February peak and is used as the annual unit instead of the calendar year, which splits events in two. 1991/92–2024/25 contains 11 El Niño, 15 La Niña and 8 Neutral ENSO years.</li>
+  </ul>
+
+  <h2 id=&quot;climate&quot;>Climate Analyses (ENSO: Global Variations and ENSO: Country Deep Dives)</h2>
+  <h3>Anomalies and Baselines</h3>
+  <p>Anomalies are computed against two 30-year baselines, 1961–1990 (CRU's native reference and the WMO reference for long-term change) and 1991–2020 (the current WMO standard normal, also the base of the Niño SST indices). A normal needs at least 25 of its 30 years. Two forms are offered: absolute anomaly, and percent of normal (Precipitation and Wet Days only, where the normal is at least 5 mm or 1 day per month in the period). Where all variables are compared on one chart (the difference tables and the global maps), differences are divided by the baseline standard deviation so they share one scale. Changing the baseline shifts absolute anomalies by a constant, so it does not affect differences between phases, correlations or local projections; it does affect the level of anomalies and percent values. Against 1961–1990, warming lifts temperature-type anomalies in every phase in 1991–2025.</p>
+  <h3>Anomalies in El Niño and La Niña Years, 1991–2025</h3>
+  <ul>
+    <li><b>Phase means and differences.</b> For every country, variable and period, the mean anomaly in El Niño, La Niña and Neutral years (and in groups by strength and type), with 95% t-intervals. Differences from Neutral years are tested by permutation: phase labels are shuffled 5,000 times between the phase and Neutral years, and p is the share of shuffles with a difference at least as large as observed.</li>
+    <li><b>ENSO-year cycle.</b> Monthly anomalies from June to May averaged over the ENSO years of each phase, 1991/92–2024/25, with 95% intervals.</li>
+  </ul>
+  <h3>Correlation with ENSO Indices</h3>
+  <p>Pearson correlation between each linearly detrended country series and the detrended ENSO index, for each month, season and the ENSO year: RONI at lags of 0–12 months before the centre of the period, and Niño 1+2, 3, 3.4 and 4 (3-month means) at lag 0. Two samples: 1951–2025 (for the SST indices, which start in 1982, 1982–2025) and 1991–2025. p-values use the effective sample size of Bretherton et al. (1999), which allows for autocorrelation; q-values control the false discovery rate (Benjamini and Hochberg 1995) across all countries, variables and periods tested together for each index, lag and sample. Spearman rank correlations are given at lag 0 as a check. Rolling correlations use 21-year windows. UN subregion values on ENSO: Global Variations are medians across countries.</p>
+  <h3>Historical Climate Response to ENSO (Local Projections)</h3>
+  <p>For each country, variable and horizon h = 0–12 months, on monthly data 1951–2025 (Jordà 2005):</p>
+  <p class=&quot;formula&quot;>y(t+h) = month-of-t effects + trend + trend² + b⁺(h)·max(RONI_t, 0) + b⁻(h)·min(RONI_t, 0) + e(t+h)</p>
+  <p>b⁺(h) is the response to RONI = +1 (El Niño side) and −b⁻(h) the response to RONI = −1 (La Niña side), so the two can differ in size. The &quot;season of onset&quot; option lets both differ by the season of month t. Month effects remove the seasonal cycle, so the result does not depend on the baseline. Standard errors are Newey and West (1987) with h + 7 lags; bands are 90% intervals. The effect in a given month is shown for all variables. Accumulated Precipitation is an additional indicator on this tab only: the left-hand side is the sum of Precipitation from t to t+h, giving the surplus or deficit built up since onset, in mm or as a percentage of the annual normal. The responses summarise how climate has followed past ENSO events and are not used for prediction: they average over events of different strength and type, ignore the warming trend and other climate drivers, and cannot anticipate how a particular event will develop. Current ENSO and seasonal forecasts from the WMO Lead Centre are shown in ENSO: Outlook (see Seasonal Forecasts under Data and the section below).</p>
+
+  <h2 id=&quot;outlook&quot;>Seasonal Forecasts (ENSO: Outlook)</h2>
+  <p>Grid cells are matched to the subnational (ADM1) regions of geoBoundaries CGAZ (3,224 regions in 218 countries), weighting each cell by its area and by the share of the cell inside the region. For each region the dashboard computes the share of its area where each category is most likely and the average probability of each category where it is most likely. The region takes the category that is most likely over the largest share of its area, with that category's average probability. Country values combine their regions by area. Because the grid is coarse, small neighbouring regions often share one value. The forecasts are combined by the Lead Centre with weights based on ensemble size (Min et al. 2009); the dashboard does not adjust them. Unlike the local projections, these are genuine forecasts, but their skill varies by region and season and is highest in the tropics and during strong ENSO events.</p>
+
+  <h2 id=&quot;disasters&quot;>Disaster Analyses (Climate-Related Disasters)</h2>
+  <ul>
+    <li><b>Hazard groups.</b> Flood (all subtypes); tropical cyclone; other storm (extra-tropical, convective, winter storms, hail, tornado and others); drought; heat wave; cold wave and severe winter conditions; wildfire; landslide and other wet mass movement. &quot;All hazards&quot; combines them. Epidemics are not included.</li>
+    <li><b>ENSO phase of an event.</b> The phase of its start month, or of the month 3 or 6 months earlier, to allow for delayed responses (droughts in particular develop over months and are often recorded late).</li>
+    <li><b>Frequency.</b> Events per year spent in each phase: the number of events starting in a phase divided by the time spent in that phase in 2000–2025 (55 El Niño, 140 Neutral and 117 La Niña months at the start month). This corrects for La Niña covering more than twice as much of the period as El Niño. 95% intervals are exact Poisson intervals.</li>
+    <li><b>Rate ratios.</b> The El Niño (or La Niña) rate divided by the Neutral rate, with an exact conditional Poisson test and 95% interval.</li>
+    <li><b>Sensitivity to RONI.</b> Events per ENSO year (2000/01–2024/25) regressed on the year's December–February RONI and a linear trend with quasi-Poisson regression; the incidence rate ratio is the multiple by which yearly counts change per +1 °C of RONI. Estimated where an area has at least 10 events of a hazard. The Spearman correlation of yearly counts with RONI is reported alongside.</li>
+    <li><b>Impacts.</b> Deaths, people injured, total people affected and CPI-adjusted economic damage per event, compared between phases with medians and Wilcoxon rank-sum tests (at least three events per phase), plus totals per year in each phase and the Spearman correlation of yearly totals with RONI.</li>
+    <li><b>Areas.</b> World, each UN subregion and each country. Multi-country disasters appear once per affected country, so world counts are country-events.</li>
+  </ul>
+
+  <h2 id=&quot;caveats&quot;>Notes and Caveats</h2>
+  <h3>Climate</h3>
+  <ul>
+    <li>1991–2025 holds few events of each kind; groups by strength or type rest on one to six events and are indicative only.</li>
+    <li>Country averages hide opposite signals within large or elongated countries (for example northern and southern Brazil, or Ecuador's coast and highlands).</li>
+    <li>Teleconnections vary over decades; check the rolling correlation before relying on a recent composite.</li>
+    <li>Other climate modes (the Indian Ocean Dipole, the Pacific Decadal Oscillation, the Atlantic) also shape many of the same regions and are not separated out.</li>
+    <li>Significance: with many countries, variables and periods, some results pass p &amp;lt; 0.05 by chance; q-values and coherent patterns across neighbouring months or countries are more reliable than single cells.</li>
+  </ul>
+  <h3>Disasters</h3>
+  <ul>
+    <li>EM-DAT counts reported disasters, which depend on exposure, vulnerability and reporting as much as on the hazard. Reporting changes over time and between countries; the trend term in the sensitivity regression absorbs a steady change, but not shifts tied to particular years.</li>
+    <li>Start dates of slow-onset events such as droughts are uncertain, and droughts can be recorded only once impacts are felt; the 3- and 6-month lags help but do not solve this.</li>
+    <li>Impacts are extremely skewed: one event can dominate a phase's totals. Damage is missing for about two thirds of events and injuries for about three quarters (deaths for 28%, people affected for 22%); damage is reported more often in richer countries.</li>
+    <li>Only 2000–2025 is covered, with about 4.6 years of El Niño; country-level ratios are therefore uncertain and best read alongside the subregion and world results.</li>
+  </ul>
+
+  <h2 id=&quot;references&quot;>References</h2>
+  <ul>
+    <li>Benjamini, Y. and Hochberg, Y. (1995). Controlling the false discovery rate. <i>Journal of the Royal Statistical Society B</i>, 57, 289–300.</li>
+    <li>Bretherton, C. S. et al. (1999). The effective number of spatial degrees of freedom of a time-varying field. <i>Journal of Climate</i>, 12, 1990–2009.</li>
+    <li>EM-DAT, CRED / UCLouvain, Brussels, Belgium. www.emdat.be.</li>
+    <li>Harris, I., Osborn, T. J., Jones, P. and Lister, D. (2020). Version 4 of the CRU TS monthly high-resolution gridded multivariate climate dataset. <i>Scientific Data</i>, 7, 109.</li>
+    <li>Huang, B. et al. (2021). Improvements of the Daily Optimum Interpolation Sea Surface Temperature (DOISST) version 2.1. <i>Journal of Climate</i>, 34, 2923–2939.</li>
+    <li>Jordà, Ò. (2005). Estimation and inference of impulse responses by local projections. <i>American Economic Review</i>, 95, 161–182.</li>
+    <li>Kug, J.-S., Jin, F.-F. and An, S.-I. (2009). Two types of El Niño events: cold tongue El Niño and warm pool El Niño. <i>Journal of Climate</i>, 22, 1499–1515.</li>
+    <li>Min, Y.-M., Kryjov, V. N. and Park, C.-K. (2009). A probabilistic multimodel ensemble approach to seasonal prediction. <i>Weather and Forecasting</i>, 24, 812–828.</li>
+    <li>Newey, W. K. and West, K. D. (1987). A simple, positive semi-definite, heteroskedasticity and autocorrelation consistent covariance matrix. <i>Econometrica</i>, 55, 703–708.</li>
+    <li>van Oldenborgh, G. J. et al. (2021). Defining El Niño indices in a warming climate. <i>Environmental Research Letters</i>, 16, 044003.</li>
+    <li>Willett, K. M. and Sherwood, S. (2012). Exceedance of heat index thresholds for 15 regions under a warming climate using the wet-bulb globe temperature. <i>International Journal of Climatology</i>, 32, 161–177.</li>
+    <li>WMO Lead Centre for Long-Range Forecast Multi-Model Ensemble, Busan, Republic of Korea. www.wmolc.org.</li>
+    <li>Yeh, S.-W. et al. (2009). El Niño in a changing climate. <i>Nature</i>, 461, 511–514.</li>
+  </ul>
+</main>
+
+<script src=&quot;assets/common.js?v=20261021k&quot;></script>
+<script>window.DASH.initHeader(() => {});</script>
+</body>
+</html>
+"></iframe>
+</div>
+<script src="assets/common.js?v=20261021k"></script>
+<script src="assets/shell.js?v=20261021k"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ENSO: Outlook</title>
+<link rel="stylesheet" href="assets/dashboard.css?v=20261021k">
+</head>
+<body>
+<header class="top">
+  <h1>ENSO: Outlook</h1>
+  <p id="intro">This page brings together operational forecasts from the World Meteorological Organization for the coming months. The first section shows the multi-model forecast of the Niño 3.4 sea-surface temperature anomaly, which indicates how strong the current ENSO event is expected to become. The second section shows the multi-model seasonal forecasts of Mean Temperature and Precipitation for every subnational (ADM1) region and country, as the most likely of three categories (below, near or above normal) and its probability. Unlike the historical relationships on the other pages, these are forecasts issued by the WMO Lead Centre for Long-Range Forecast Multi-Model Ensemble from the latest runs of a dozen global prediction systems.</p>
+</header>
+
+<main>
+  <h2 class="section" style="margin-top:12px">ENSO Prediction</h2>
+  <p class="section-note">The expected strength of El Niño or La Niña over the coming months, from the multi-model Niño 3.4 forecast.</p>
+  <div class="grid">
+    <div class="card w12" data-chart="nino">
+      <div class="card-head"><div><h3 id="nino-title">Multi-Model Forecast of the Niño 3.4 Anomaly</h3>
+        <p class="desc" id="nino-desc"></p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> The forecast sea-surface temperature anomaly of the Niño 3.4 region (5°N–5°S, 170°W–120°W) for each of the next six months, from each global prediction system contributing to the WMO Lead Centre (thin lines) and their multi-model mean (thick line). The anomaly is relative to each system's own hindcast climate, which removes model biases.</p>
+        <p><b>How to read it.</b> The hairlines mark the thresholds used for ENSO strength: ±0.5 °C (weak), ±1.0 °C (moderate), ±1.5 °C (strong) and ±2.0 °C (very strong). The thresholds are defined for three-month means, so single months are a guide to strength. The spread of the thin lines shows the uncertainty: when the systems agree closely, the forecast strength is more reliable. Niño 3.4 forecasts are an absolute index; NOAA's operational definition uses the relative index (RONI), which is usually a little lower during warm events because the whole tropics are warmer than normal.</p>
+      </div></details>
+      <div id="nino-msg"></div>
+      <div class="plot tall" id="p-nino"></div><div class="tablewrap"></div>
+    </div>
+  </div>
+
+  <h2 class="section">Seasonal Forecasts by Subnational Region</h2>
+  <p class="section-note" id="forecast-note"></p>
+  <div class="local-controls">
+    <div class="field"><span class="lbl">Climate indicator</span>
+      <div class="seg" id="f-var"><button data-v="TMP">Mean Temperature</button><button data-v="PRE">Precipitation</button></div></div>
+    <div class="field"><span class="lbl">Season</span><div class="seg" id="f-period"></div></div>
+    <div class="field country"><label for="f-country">Area</label><select id="f-country"></select></div>
+  </div>
+  <div class="grid">
+    <div class="card w12" data-chart="fmap">
+      <div class="card-head"><div><h3 id="fmap-title">Most Likely Category</h3>
+        <p class="desc" id="fmap-desc"></p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> For the selected climate indicator and season, the category the WMO multi-model forecast considers most likely in each country (world view) or in each ADM1 region of the selected country: below normal, near normal or above normal, defined as the lower, middle and upper thirds of each prediction system's own hindcast climate. The deeper the colour, the higher the probability of that category; near normal is gray.</p>
+        <p><b>How it is computed.</b> The Lead Centre provides, on a 2.5° grid, the most likely category and its probability, combining the probabilities of each system with weights based on ensemble size (Min et al. 2009). For each region, grid cells are weighted by their area and by the share of the cell inside the region. The region takes the category that is most likely over the largest share of its area, with the average probability of that category; hover shows the share of the area where each category is most likely. Country values combine their regions by area.</p>
+        <p><b>Caveats.</b> A 2.5° cell (about 275 km at the equator) is larger than many regions, so neighbouring small regions often share one value. Probabilities near 33–40% mean the forecast leans only slightly towards that category. Seasonal forecasts are more reliable in the tropics and during strong ENSO events than in the mid-latitudes. Click a country on the world map to see its regions.</p>
+      </div></details>
+      <div class="plot map" id="p-fmap"></div><div class="tablewrap"></div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/common.js?v=20261021k"></script>
+<script src="data/meta.js?v=20261021k"></script>
+<script src="data/outlook.js?v=20261021k"></script>
+<script src="data/adm1_geo.js?v=20261021k"></script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script src="assets/outlook-page.js?v=20261021k"></script>
+</body>
+</html>

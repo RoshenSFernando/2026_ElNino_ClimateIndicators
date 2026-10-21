@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ENSO: Country Deep Dives</title>
+<link rel="stylesheet" href="assets/dashboard.css?v=20261021k">
+</head>
+<body>
+<header class="top">
+  <h1>ENSO: Country Deep Dives</h1>
+  <p>This page examines how ENSO has shaped the climate of a single country, using CRU country averages for ten climate indicators. The bar below selects the country, the indicator, the month or season, the anomaly baseline and the anomaly unit. The first tab compares anomalies in El Niño, La Niña and Neutral years since 1991; the second measures the correlation with ENSO indices, its timing and its stability over time; the third traces how each indicator has historically responded in the twelve months after an El Niño or La Niña onset. All results describe past relationships and are not forecasts; ENSO: Outlook shows the current WMO multi-model forecasts.</p>
+</header>
+
+<div class="filters">
+  <div class="filters-inner">
+    <div class="field country"><label for="country">Country</label><select id="country"></select></div>
+    <div class="field"><label for="variable">Variable</label><select id="variable"></select></div>
+    <div class="field"><label for="period">Period</label><select id="period"></select></div>
+    <div class="field"><span class="lbl">Baseline</span>
+      <div class="seg" id="baseline"><button data-v="B6190">1961–1990</button><button data-v="B9120">1991–2020</button></div></div>
+    <div class="field"><span class="lbl">Anomaly</span>
+      <div class="seg" id="metric"><button data-v="abs">Absolute</button><button data-v="pct">% of normal</button></div></div>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" data-tab="variation">Anomalies in El Niño and La Niña Years</button>
+  <button role="tab" data-tab="correlation">Correlation with ENSO Indices</button>
+  <button role="tab" data-tab="lp">Historical Climate Response to ENSO</button>
+</nav>
+
+<main>
+  <div class="country-head" id="country-head"></div>
+
+  <!-- ===================== Variation by phase ===================== -->
+  <section data-panel="variation">
+    <div class="grid">
+      <div class="card tile w3" id="tile-en"></div>
+      <div class="card tile w3" id="tile-ln"></div>
+      <div class="card tile w3" id="tile-r"></div>
+      <div class="card tile w3" id="tile-n"></div>
+
+      <div class="card w12" data-chart="timeline">
+        <div class="card-head"><div><h3 id="timeline-title">Anomalies by Year</h3>
+          <p class="desc" id="timeline-desc"></p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> One bar per year from 1991 to 2025 for the selected variable and period. The bar is the anomaly: the value that year minus the average of the selected baseline (1961–1990 or 1991–2020), in the units chosen under "Anomaly": the variable's own units, or percent of the normal (Precipitation and Wet Days only).</p>
+          <p><b>Colours.</b> Each bar takes the ENSO phase of its period: for a month, the RONI phase of that month; for a season, that of its middle month (April for MAM, July for JJA, October for SON, January for DJF); for the June–May ENSO year, that of its December–February peak.</p>
+          <p><b>How to read it.</b> If ENSO matters, orange and blue bars sit on opposite sides of the gray ones. Against the 1961–1990 baseline, temperature-type variables drift upwards over time because of warming, so compare the colours with each other rather than with zero; the 1991–2020 baseline removes most of that offset. DJF ends in 2024/25 because the 2025 season needs January–February 2026.</p>
+        </div></details>
+        <div class="legend-inline" id="phase-legend"></div>
+        <div class="plot" id="p-timeline"></div><div class="tablewrap"></div>
+      </div>
+
+      <div class="card w4" data-chart="box">
+        <div class="card-head"><div><h3>Distribution by Phase</h3>
+          <p class="desc">Each dot is one year, 1991–2025.</p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> The anomalies of the timeline above, grouped by ENSO phase. Each dot is one year; the box spans the middle half of the years (25th to 75th percentile), the solid line inside it is the median, the dashed line is the mean, and the whiskers reach the most extreme years that are not outliers.</p>
+          <p><b>How to read it.</b> Shifted boxes mean a consistent ENSO effect; overlapping boxes with a few extreme dots mean the effect is driven by a handful of big events (often 1997/98 and 2015/16). Hover a dot to see the year.</p>
+        </div></details>
+        <div class="plot tall" id="p-box"></div><div class="tablewrap"></div>
+      </div>
+
+      <div class="card w8" data-chart="heat">
+        <div class="card-head"><div><h3 id="heat-title">Difference from Neutral Years, All Variables</h3>
+          <p class="desc">Phase mean minus Neutral mean, in standard deviations. ● p &lt; 0.05. Click a cell to select it.</p></div>
+          <div class="card-tools">
+            <div class="seg" id="contrast"><button data-v="EN">El Niño</button><button data-v="LN">La Niña</button></div>
+            <button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> For every variable (rows) and every month, season and the ENSO year (columns), the average anomaly in El Niño (or La Niña) years minus the average in Neutral years, 1991–2025. Dividing by the standard deviation of the selected baseline puts all variables on one scale: 1.0 means the phase shifts that variable by a full typical year-to-year swing.</p>
+          <p><b>Colours.</b> Red means the phase brings warmer or drier conditions and blue cooler or wetter ones; for Precipitation, Wet Days, Cloud Cover and Vapour Pressure the scale is flipped so the colour keeps that physical meaning. Hover a cell for the value in the variable's own units.</p>
+          <p><b>Significance.</b> ● marks cells where a permutation test (5,000 random reshuffles of the phase labels between phase and Neutral years) gives p below 0.05. With 170 cells, about eight would pass by chance alone, so look for coherent blocks rather than isolated dots. The difference in the variable's own units does not depend on the baseline.</p>
+        </div></details>
+        <div class="plot tall" id="p-heat"></div><div class="tablewrap"></div>
+      </div>
+
+      <div class="card w12" data-chart="cycle">
+        <div class="card-head"><div><h3>Through the ENSO Year</h3>
+          <p class="desc">Monthly anomalies from June (0) to May (+1), averaged by phase. Bands: 95% confidence intervals.</p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> How the selected variable evolves month by month through an ENSO year, from June of the year the event develops ("0") to May of the year it decays ("+1"). Each line is the average monthly anomaly over the ENSO years 1991/92–2024/25 of that phase (the phase of the December–February peak); n in the legend is the number of years. The shaded band is the 95% confidence interval of the mean.</p>
+          <p><b>How to read it.</b> The chart shows when in the event the country feels it: some regions respond as the event develops (for example Indonesia and Australia in August–November), others at or after the peak (for example southern Africa in December–February, or East Africa in October–December). Where the bands of two phases do not overlap, the difference is likely real.</p>
+        </div></details>
+        <div class="plot" id="p-cycle"></div><div class="tablewrap"></div>
+      </div>
+
+      <div class="card w12" data-chart="groups">
+        <div class="card-head"><div><h3>By Strength and Type of Event</h3>
+          <p class="desc">Mean anomaly for each group with its 95% confidence interval; n is the number of years.</p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> The average anomaly of the selected variable and period for groups of years, 1991–2025: all El Niño, Neutral and La Niña years; El Niño and La Niña split by strength (weak, moderate, strong including very strong, from the peak RONI of the episode); and El Niño split into Eastern and Central Pacific types. Bars for subgroups are lighter than the main phases. Lines show 95% confidence intervals, drawn only for groups with at least three years.</p>
+          <p><b>How to read it.</b> Stronger events usually have larger effects, and Eastern and Central Pacific El Niños can affect the same country differently, even in sign. Groups hold only a few events (n in the label), so treat differences between subgroups as indicative. Hover for the difference from Neutral years and its permutation p-value.</p>
+        </div></details>
+        <div class="plot" id="p-groups"></div><div class="tablewrap"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Correlation ===================== -->
+  <section data-panel="correlation" hidden>
+    <div class="local-controls">
+      <div class="field"><span class="lbl">Sample</span>
+        <div class="seg" id="sample"><button data-v="Long">1951–2025</button><button data-v="Recent">1991–2025</button></div></div>
+    </div>
+    <div class="grid">
+      <div class="card w8" data-chart="corrheat">
+        <div class="card-head"><div><h3>Correlation with RONI, All Variables</h3>
+          <p class="desc">Detrended Pearson correlation coefficient at lag 0. ● q &lt; 0.05. Click a cell to select it.</p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> The correlation between RONI and each variable (rows) for each month, season and the ENSO year (columns), over 1951–2025 or 1991–2025. RONI is taken at the centre month of the period. A linear trend is removed from both series first, so shared warming does not create a spurious link.</p>
+          <p><b>Colours.</b> Red means El Niño years tend to be warmer or drier and La Niña years cooler or wetter; blue means the reverse. The colour scale is flipped for Precipitation, Wet Days, Cloud Cover and Vapour Pressure so it keeps that meaning. Hover for the correlation coefficient, the period, p and q.</p>
+          <p><b>Significance.</b> p-values use an effective sample size that allows for autocorrelation (Bretherton et al. 1999). ● marks q below 0.05, where q controls the false discovery rate across all countries, variables and periods tested together; it is stricter than p and guards against chance findings.</p>
+        </div></details>
+        <div class="plot tall" id="p-corrheat"></div><div class="tablewrap"></div>
+      </div>
+
+      <div class="card w4" data-chart="indices">
+        <div class="card-head"><div><h3>Which ENSO Index Matters Most</h3>
+          <p class="desc" id="indices-desc"></p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> The detrended correlation of the selected variable and period with five ENSO indices: RONI and the sea-surface temperature anomalies of Niño 1+2 (far east, off Peru), Niño 3 (east), Niño 3.4 (central-east) and Niño 4 (central-west), each as a 3-month mean centred on the period. Gray bars use 1951–2025 (the SST indices start in 1982, so for them it is 1982–2025); green bars use 1991–2025. Filled bars have p below 0.05; hollow bars do not.</p>
+          <p><b>How to read it.</b> A country whose strongest link is with Niño 1+2 or Niño 3 is most affected by Eastern Pacific events; one tied to Niño 4 responds more to Central Pacific events. Similar bars across indices mean the country responds to ENSO as a whole.</p>
+        </div></details>
+        <div class="plot tall" id="p-indices"></div><div class="tablewrap"></div>
+      </div>
+
+      <div class="card w4" data-chart="leadlag">
+        <div class="card-head"><div><h3>Lead and Lag</h3>
+          <p class="desc">Correlation with RONI measured 0–12 months earlier. Filled markers: p &lt; 0.05.</p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> The correlation between the selected variable and period and RONI measured 0 to 12 months before the centre of the period, for both samples. Lag 3 for JJA, for example, uses RONI centred on April.</p>
+          <p><b>How to read it.</b> A correlation that is already strong at long leads means the state of ENSO months ahead carries useful early-warning information for this country and season. A sign change at long leads reflects the typical transition between El Niño and La Niña, not a separate effect.</p>
+        </div></details>
+        <div class="plot" id="p-leadlag"></div><div class="tablewrap"></div>
+      </div>
+
+      <div class="card w4" data-chart="scatter">
+        <div class="card-head"><div><h3>RONI Against the Anomaly</h3>
+          <p class="desc">Each dot is one year, 1991–2025; the line is a least-squares fit.</p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> Each dot is one year: RONI at the centre of the period (horizontal) against the anomaly of the selected variable (vertical, in the chosen units and baseline), coloured by phase. The line is an ordinary least-squares fit; its slope is the average change in the anomaly per 1 °C of RONI. The four years with the largest |RONI| are labelled.</p>
+          <p><b>How to read it.</b> Use it to check whether a correlation is a steady relationship or rests on a few big events, and whether El Niño and La Niña act symmetrically (for example, a strong drop on the right but little change on the left). Unlike the correlation heat table, this view is not detrended.</p>
+        </div></details>
+        <div class="plot" id="p-scatter"></div><div class="tablewrap"></div>
+      </div>
+
+      <div class="card w4" data-chart="neighbours">
+        <div class="card-head"><div><h3 id="neighbours-title">Compared with the UN Subregion</h3>
+          <p class="desc">Correlation with RONI for every country in the same UN subregion.</p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> The detrended correlation with RONI (lag 0, selected sample) for the selected variable and period, for every country in the selected country's UN geoscheme subregion. The selected country is outlined; faded bars are not significant (q of 0.05 or more).</p>
+          <p><b>How to read it.</b> If neighbours agree, the signal is regional and robust; if the selected country stands out, check its data-quality flag or its geography (for example a country spanning both sides of the equator). Click a bar to switch to that country.</p>
+        </div></details>
+        <div class="plot tall" id="p-neighbours"></div><div class="tablewrap"></div>
+      </div>
+      <div class="card w12" data-chart="rolling">
+        <div class="card-head"><div><h3>Is the Link Stable?</h3>
+          <p class="desc">Correlation with RONI in 21-year windows. Hairlines at ±0.43 mark p ≈ 0.05.</p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> The detrended correlation with RONI (lag 0) computed in moving 21-year windows from 1951 to 2025, plotted at each window's centre year (1961 covers 1951–1971).</p>
+          <p><b>How to read it.</b> Teleconnections can weaken or strengthen over decades, for example with the Pacific Decadal Oscillation, the Indian Ocean or the mix of Eastern and Central Pacific events. A line that stays outside the ±0.43 hairlines (the 5% significance level for 21 years) shows a dependable link; one that wanders across zero suggests treating recent composites with caution.</p>
+        </div></details>
+        <div class="plot short" id="p-rolling"></div><div class="tablewrap"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== Historical climate response to ENSO (local projections) ===================== -->
+  <section data-panel="lp" hidden>
+    <div class="local-controls">
+      <div class="field"><span class="lbl">Season of onset</span>
+        <div class="seg" id="onset"><button data-v="All">All seasons</button><button data-v="DJF">DJF</button><button data-v="MAM">MAM</button><button data-v="JJA">JJA</button><button data-v="SON">SON</button></div></div>
+      <div class="field" id="cumunit-field"><span class="lbl">Accumulated Precipitation in</span>
+        <div class="seg" id="cumunit"><button data-v="mm">mm</button><button data-v="pct">% of annual normal</button></div></div>
+    </div>
+    <div class="grid">
+      <div class="card w12" data-chart="lpm">
+        <div class="card-head"><div><h3 id="lpm-title">Historical Response by Month After Onset</h3>
+          <p class="desc" id="lpm-desc"></p></div>
+          <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+        <details class="about"><summary>About This Chart</summary><div class="body">
+          <p><b>What it shows.</b> How the selected variable has historically behaved h months after an "onset" month in which RONI equals +1 (El Niño, orange) or −1 (La Niña, blue), for h = 0 to 12, compared with a month in which RONI is 0: the average anomaly that followed past events. Bands are 90% confidence intervals. For <b>Accumulated Precipitation</b> the line is instead the total extra (+) or missing (−) Precipitation from the onset month to h months later, in mm or as a percentage of the normal annual total: the size of the rainfall deficit or surplus that matters for soil moisture, reservoirs and harvests.</p>
+          <p><b>How it is computed.</b> Local projections (Jordà 2005) on monthly data, 1951–2025: for each horizon h, the value at month t+h (or, for Accumulated Precipitation, the sum from t to t+h) is regressed on the positive and negative parts of RONI at month t, with calendar-month effects (which remove the seasonal cycle, so the result does not depend on the baseline) and a quadratic trend. Separate El Niño and La Niña coefficients allow the two to differ in size. With "season of onset", the coefficients also differ by the season of month t, since a July event and a January event affect the following months differently. Standard errors are Newey-West with h+7 lags.</p>
+          <p><b>How to read it.</b> The response at h includes the usual evolution of past events after month t (events tend to persist and peak around December). It is per 1 °C of RONI and scales roughly in proportion for stronger events. It describes the past and is not a forecast: current ENSO and seasonal forecasts are shown in ENSO: Outlook. For Accumulated Precipitation, a curve that keeps falling means the deficit keeps growing, one that flattens means it is not made up later, and one that turns back towards zero means later rains partly compensate.</p>
+        </div></details>
+        <div class="legend-inline" id="lp-legend"></div>
+        <div class="plot" id="p-lpm"></div><div class="tablewrap"></div>
+      </div>
+
+      <div class="card w12">
+        <div class="card-head"><div><h3>Summary for All Variables</h3>
+          <p class="desc" id="lpsum-desc"></p></div></div>
+        <details class="about"><summary>About This Table</summary><div class="body">
+          <p><b>What it shows.</b> The historical responses of the chart above for every variable at selected horizons (0, 2, 4, 6, 9 and 12 months after onset), for RONI = +1 (El Niño) and −1 (La Niña), with the selected season of onset. The last row is Accumulated Precipitation in mm. Bold values have 90% confidence intervals that exclude zero; gray values do not.</p>
+        </div></details>
+        <div id="lpsum" style="overflow:auto"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/common.js?v=20261021k"></script>
+<script src="data/meta.js?v=20261021k"></script>
+<script src="data/global.js?v=20261021k"></script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script src="assets/country-page.js?v=20261021k"></script>
+</body>
+</html>

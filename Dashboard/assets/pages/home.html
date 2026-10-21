@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home</title>
+<link rel="stylesheet" href="assets/dashboard.css?v=20261021k">
+<style>
+  .pages .card ul { margin: 6px 0 10px; padding-left: 18px; color: var(--ink-2); font-size: 13px; }
+  .pages .card li { margin: 2px 0; }
+  .pages .card .linkbtn { cursor: pointer; }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Introduction</h1>
+  <p>The El Niño–Southern Oscillation (ENSO) is the strongest year-to-year swing in the global climate. Every two to seven years the surface of the central and eastern tropical Pacific Ocean warms (El Niño) or cools (La Niña) by one to three degrees, and the winds, air pressure and rainfall over the tropical Pacific shift with it (the Southern Oscillation). Through the atmosphere, these events change temperature and rainfall far from the Pacific, raising the risk of drought in some regions and of floods, storms or heat in others, with knock-on effects on harvests, water, health and economies. This dashboard measures how the climate of every country, and the occurrence and impacts of climate-related disasters, have varied with ENSO, and shows the current forecasts for the coming months.</p>
+</header>
+
+<main>
+  <h2 class="section" style="margin-top:12px">What You Can Explore</h2>
+  <p class="section-note">The dashboard has five pages, chosen from the tabs at the top. Every chart has an About This Chart note explaining what it shows and how to read it, and most can be shown as a table.</p>
+  <div class="grid pages">
+    <div class="card w6">
+      <h3>ENSO: Global Variations</h3>
+      <p class="desc">How ENSO has varied since 1950, and where in the world it leaves the strongest mark on national climate.</p>
+      <ul>
+        <li>The Relative Oceanic Niño Index (RONI) month by month, with an ENSO calendar, the El Niño and La Niña years of each decade and the list of episodes with their strength and type.</li>
+        <li>Sea-surface temperature anomalies in the four Niño regions.</li>
+        <li>World maps of the link between ENSO and each climate indicator by season: correlation with RONI, or the El Niño and La Niña anomaly compared with Neutral years.</li>
+        <li>Summaries by United Nations subregion and a ranking of the countries with the strongest links.</li>
+      </ul>
+      <button class="linkbtn" data-go="global">Open ENSO: Global Variations</button>
+    </div>
+    <div class="card w6">
+      <h3>ENSO: Country Deep Dives</h3>
+      <p class="desc">How ENSO has shaped the climate of one country, for ten climate indicators, any month or season and two baselines.</p>
+      <ul>
+        <li><b>Anomalies in El Niño and La Niña years:</b> anomalies by year since 1991, their distribution by phase, the difference from Neutral years for all indicators, the path through the ENSO year, and the effect of the strength and type of event.</li>
+        <li><b>Correlation with ENSO indices:</b> correlation with RONI for all indicators, a comparison of Niño indices, lead and lag, the scatter of RONI against the anomaly, neighbouring countries and the stability of the link over time.</li>
+        <li><b>Historical climate response to ENSO:</b> how each indicator has evolved in the twelve months after an El Niño or La Niña onset, including Accumulated Precipitation.</li>
+      </ul>
+      <button class="linkbtn" data-go="country">Open ENSO: Country Deep Dives</button>
+    </div>
+    <div class="card w6">
+      <h3>Climate-Related Disasters</h3>
+      <p class="desc">Floods, storms, droughts, extreme temperatures, wildfires and landslides recorded in EM-DAT from 2000 to 2025, for the world, a UN subregion or a country.</p>
+      <ul>
+        <li><b>How often disasters occur:</b> the frequency in El Niño and La Niña periods compared with Neutral periods, the change per +1 °C of RONI, events per ENSO year, and results by subregion, hazard and country.</li>
+        <li><b>How severe disasters are:</b> deaths, injuries, people affected and economic damage per event and per year in each phase, and the largest events.</li>
+      </ul>
+      <button class="linkbtn" data-go="disasters">Open Climate-Related Disasters</button>
+    </div>
+    <div class="card w6">
+      <h3>ENSO: Outlook</h3>
+      <p class="desc">Operational forecasts from the WMO Lead Centre for Long-Range Forecast Multi-Model Ensemble.</p>
+      <ul>
+        <li><b>ENSO prediction:</b> the Niño 3.4 forecast of each global prediction system and their multi-model mean for the next six months, against the thresholds of ENSO strength.</li>
+        <li><b>Seasonal forecasts by subnational region:</b> the most likely category of Mean Temperature and Precipitation (below, near or above normal) and its probability for the next four seasons, for every country and ADM1 region.</li>
+      </ul>
+      <button class="linkbtn" data-go="outlook">Open ENSO: Outlook</button>
+    </div>
+    <div class="card w12">
+      <h3>Data, Methods and Notes</h3>
+      <p class="desc">The data sources, the definitions of ENSO phases, strength and type, the statistical methods and tests behind every chart, the main caveats and the references.</p>
+      <button class="linkbtn" data-go="methods">Open Data, Methods and Notes</button>
+    </div>
+  </div>
+</main>
+
+<script src="assets/common.js?v=20261021k"></script>
+<script src="assets/home-page.js?v=20261021k"></script>
+</body>
+</html>

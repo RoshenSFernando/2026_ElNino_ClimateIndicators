@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ENSO Climate Dashboard</title>
+<link rel="stylesheet" href="assets/dashboard.css?v=20261021k">
+<style>
+  /* The tab bar stays on top; each page scrolls inside its own frame. Inactive frames are hidden but keep their size,
+     so their charts do not need redrawing when the tab is chosen again. */
+  html, body.shell { height: 100%; }
+  body.shell { display: flex; flex-direction: column; overflow: hidden; }
+  .shell-head { flex: none; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .frames { position: relative; flex: 1; min-height: 0; }
+  .frames iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; visibility: hidden; background: var(--page); }
+  .frames iframe.active { visibility: visible; }
+  .shell-head .brand { text-decoration: none; }
+</style>
+</head>
+<body class="shell">
+<div class="shell-head">
+  <div class="site">
+    <a class="brand" href="#home">Impact of ENSO Variability on Country-Level Climate Indicators and Climate-Related Natural Disasters</a>
+    <nav>
+      <a href="#home" data-page="home">Home</a>
+      <a href="#global" data-page="global">ENSO: Global Variations</a>
+      <a href="#country" data-page="country">ENSO: Country Deep Dives</a>
+      <a href="#disasters" data-page="disasters">Climate-Related Disasters</a>
+      <a href="#outlook" data-page="outlook">ENSO: Outlook</a>
+      <a href="#methods" data-page="methods">Data, Methods and Notes</a>
+    </nav>
+    <div class="right">
+      <div class="seg" id="theme" aria-label="Theme"><button data-v="light">Light</button><button data-v="dark">Dark</button></div>
+    </div>
+  </div>
+</div>
+<div class="frames">
+{{FRAMES}}
+</div>
+<script src="assets/common.js?v=20261021k"></script>
+<script src="assets/shell.js?v=20261021k"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Climate-Related Disasters</title>
+<link rel="stylesheet" href="assets/dashboard.css?v=20261021k">
+</head>
+<body>
+<header class="top">
+  <h1>Climate-Related Disasters</h1>
+  <p id="intro">This page relates the climate-related natural disasters recorded in the EM-DAT database from 2000 to 2025 to ENSO, for the world, a UN subregion or a single country. The first section compares how often floods, storms, droughts, heat and cold waves, wildfires and landslides start during El Niño, La Niña and Neutral periods, after allowing for the time spent in each phase, and how the number of disasters each year changes with the strength of ENSO. The second section compares their human and economic impacts: deaths, injuries, people affected and economic damage.</p>
+</header>
+
+<div class="filters">
+  <div class="filters-inner">
+    <div class="field country"><label for="scope">Area</label><select id="scope"></select></div>
+    <div class="field"><label for="hazard">Hazard</label><select id="hazard"></select></div>
+    <div class="field"><span class="lbl">Compare with Neutral</span>
+      <div class="seg" id="phase"><button data-v="EN">El Niño</button><button data-v="LN">La Niña</button></div></div>
+    <div class="field"><span class="lbl">ENSO phase measured</span>
+      <div class="seg" id="lag"><button data-v="0">At start</button><button data-v="3">3 months earlier</button><button data-v="6">6 months earlier</button></div></div>
+  </div>
+</div>
+
+<main>
+  <div class="country-head" id="scope-head"></div>
+  <h2 class="section" style="margin-top:4px">How Often Disasters Occur</h2>
+  <p class="section-note">Frequency of disasters in El Niño, La Niña and Neutral periods, and how it changes with the strength of ENSO.</p>
+  <div class="grid">
+    <div class="card w6" data-chart="ratios">
+      <div class="card-head"><div><h3>Frequency Compared with Neutral Periods</h3>
+        <p class="desc" id="ratios-desc"></p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> For each hazard, the rate at which disasters start during El Niño (orange) and La Niña (blue) periods divided by the rate during Neutral periods, with 95% confidence intervals. Rates are events per year spent in each phase, so the uneven time in each phase (2000–2025: about 4.6 years of El Niño, 9.8 of La Niña and 11.7 of Neutral months) does not distort the comparison.</p>
+        <p><b>How to read it.</b> A ratio of 1.5 means disasters of that type start 50% more often than in Neutral periods; 0.5 means half as often. The axis is logarithmic, so equal distances mean equal multiples. Filled markers have an exact Poisson test p below 0.05. Small areas or rare hazards give very wide intervals.</p>
+      </div></details>
+      <div class="plot tall" id="p-ratios"></div><div class="tablewrap"></div>
+    </div>
+
+    <div class="card w6" data-chart="sens">
+      <div class="card-head"><div><h3>Change in Frequency per +1 °C of RONI</h3>
+        <p class="desc">Events per ENSO year regressed on December–February RONI, 2000/01–2024/25, with a trend.</p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> The number of disasters starting in each ENSO year (June to May) is modelled as a function of that year's December–February RONI and a linear time trend (quasi-Poisson regression, which allows for extra variation). The marker is the incidence rate ratio: the multiple by which yearly event counts change for each +1 °C of RONI, with its 95% confidence interval. Because RONI is negative in La Niña years, a value below 1 means more events in La Niña years and fewer in El Niño years.</p>
+        <p><b>Correlation.</b> Hover for the Spearman rank correlation between yearly counts and RONI. Only hazards with at least 10 events in the selected area are estimated. With 25 ENSO years, only strong links reach significance (filled markers, p below 0.05).</p>
+      </div></details>
+      <div class="plot tall" id="p-sens"></div><div class="tablewrap"></div>
+    </div>
+
+    <div class="card w12" data-chart="timeline">
+      <div class="card-head"><div><h3 id="timeline-title">Disasters per ENSO Year</h3>
+        <p class="desc">Top: December–February RONI of each ENSO year. Bottom: number of disasters starting in that ENSO year (June to May), coloured by the year's phase.</p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> Each column is one ENSO year, from June to the following May, labelled by its June (2000 covers June 2000 to May 2001). The top panel shows the strength of the ENSO peak that year; the bottom panel counts the disasters of the selected hazard that started in the selected area during that year, coloured by the ENSO year's phase.</p>
+        <p><b>How to read it.</b> Look for the counts to rise or fall with the top panel. EM-DAT reporting also changes over time, and some years carry one or two very large events or widespread multi-country disasters, so single years should not be over-read. The frequency and sensitivity charts above put a number on the overall link.</p>
+      </div></details>
+      <div class="local-controls" style="margin:2px 0 0">
+        <div class="field"><span class="lbl">ENSO years shown</span><div id="timeline-range"></div></div>
+      </div>
+      <div class="plot tall" id="p-timeline"></div><div class="tablewrap"></div>
+    </div>
+
+    <div class="card w8" data-chart="subheat">
+      <div class="card-head"><div><h3 id="subheat-title">By UN Subregion and Hazard</h3>
+        <p class="desc">Rate compared with Neutral periods, by UN subregion. ● p &lt; 0.05. Click a cell to select that subregion and hazard.</p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> For every UN geoscheme subregion (rows) and hazard (columns), the ratio of the disaster rate during the selected phase (El Niño or La Niña, chosen above) to the rate during Neutral periods. Red cells mean more frequent than in Neutral periods and blue cells less frequent; the colour scale is logarithmic, from a quarter to four times the Neutral rate. Cells are left empty when the phase and Neutral periods together hold fewer than 10 events, because ratios from a few events are unreliable.</p>
+        <p><b>How to read it.</b> The table highlights where ENSO shifts disaster frequency most. Cells built on few events can still show extreme ratios by chance; hover for the counts behind each cell, and rely on cells marked ● (exact Poisson test p below 0.05).</p>
+      </div></details>
+      <div class="plot xtall" id="p-subheat"></div><div class="tablewrap"></div>
+    </div>
+
+    <div class="card w4" data-chart="rates">
+      <div class="card-head"><div><h3 id="rates-title">Events per Year in Each Phase</h3>
+        <p class="desc">Average number of disasters starting per year spent in each phase, with 95% intervals.</p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> For the selected area and hazard, the number of disasters that started in each phase divided by the years spent in that phase over 2000–2025, with exact Poisson 95% intervals. Hover for the event count and the time spent in each phase.</p>
+        <p><b>Use.</b> The absolute counterpart of the ratio charts: it shows how many events to expect per year of El Niño, Neutral or La Niña conditions.</p>
+      </div></details>
+      <div class="plot xtall" id="p-rates"></div><div class="tablewrap"></div>
+    </div>
+
+    <div class="card w12" data-chart="map">
+      <div class="card-head"><div><h3 id="map-title">Countries</h3>
+        <p class="desc" id="map-desc"></p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> For each country with at least 10 disasters of the selected hazard in the two periods compared, the ratio of the disaster rate during the selected phase to the rate during Neutral periods. Red means more frequent and blue less frequent; the scale is logarithmic. Faded countries have an exact Poisson test p of 0.05 or more.</p>
+        <p><b>Caveat.</b> Country counts are small, so most ratios are uncertain; EM-DAT also records multi-country events once per country. Click a country to select it as the area.</p>
+      </div></details>
+      <div class="plot map" id="p-map"></div><div class="tablewrap"></div>
+    </div>
+
+  </div>
+
+  <h2 class="section">How Severe Disasters Are</h2>
+  <p class="section-note">Human and economic impacts of the disasters that start in each phase, for the area and hazard selected above.</p>
+  <div class="local-controls">
+    <div class="field"><span class="lbl">Impact</span>
+      <div class="seg" id="measure"><button data-v="Deaths">Deaths</button><button data-v="Injured">People injured</button><button data-v="Affected">People affected</button><button data-v="Damage">Economic damage</button></div></div>
+  </div>
+  <div class="grid">
+    <div class="card w6" data-chart="impact">
+      <div class="card-head"><div><h3 id="impact-title">Impact per Event</h3>
+        <p class="desc" id="impact-desc"></p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> The impact of each disaster, by the ENSO phase at its start: deaths; people injured; people affected (injured, made homeless or needing immediate assistance, EM-DAT's total affected); or economic damage in millions of US$ adjusted for inflation by EM-DAT. Each dot is one event with a reported value; boxes show the quartiles and median. The axis is logarithmic because impacts span several orders of magnitude.</p>
+        <p><b>How to read it.</b> Higher medians mean typical events are more severe. Many events have no reported value (most often injuries and damage), so the sample can be small. With the phase measured at the start, the description gives Wilcoxon rank-sum p-values for El Niño and La Niña against Neutral.</p>
+      </div></details>
+      <div class="plot tall" id="p-impact"></div><div class="tablewrap"></div>
+    </div>
+
+    <div class="card w6" data-chart="burden">
+      <div class="card-head"><div><h3 id="burden-title">Total Impact per Year in Each Phase</h3>
+        <p class="desc" id="burden-desc"></p></div>
+        <div class="card-tools"><button class="tbtn" data-table>Table</button></div></div>
+      <details class="about"><summary>About This Chart</summary><div class="body">
+        <p><b>What it shows.</b> The sum of the selected impact over all disasters starting in each phase, divided by the years spent in that phase: the average yearly burden during El Niño, Neutral and La Niña conditions.</p>
+        <p><b>Caveat.</b> Totals are dominated by a few catastrophes: a single cyclone, flood or drought can account for most of a phase's deaths or damage (see the table of largest events below). The description reports the Spearman correlation of yearly totals with RONI, which is less sensitive to such outliers.</p>
+      </div></details>
+      <div class="plot tall" id="p-burden"></div><div class="tablewrap"></div>
+    </div>
+
+    <div class="card w12" data-chart="largest">
+      <div class="card-head"><div><h3 id="largest-title">Largest Events</h3>
+        <p class="desc">The ten events with the largest selected impact in the selected area and hazard, with the ENSO phase at the time.</p></div></div>
+      <details class="about"><summary>About This Table</summary><div class="body">
+        <p><b>What it shows.</b> The most severe recorded events, ranked by the selected impact, with their start month, country, EM-DAT subtype and name where one is given, and the ENSO phase measured as chosen above. It shows which events drive the totals in the chart above.</p>
+      </div></details>
+      <div class="scroll" id="largest"></div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/common.js?v=20261021k"></script>
+<script src="data/meta.js?v=20261021k"></script>
+<script src="data/disasters.js?v=20261021k"></script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script src="assets/disasters-page.js?v=20261021k"></script>
+</body>
+</html>
